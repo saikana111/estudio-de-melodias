@@ -203,7 +203,10 @@ def procesar_melodia():
         return
     archivo_midi = convertir.conversion("grabacion_melodia.wav")   # Basic Pitch
     tonalidad = correccion.detectar_tonalidad(archivo_midi)        # music21
-    correccion.corregir(archivo_midi, tonalidad)                   # afina las notas dentro de la escala
+    # A chromatic note is not necessarily a transcription error. Preserve the
+    # original by default; old scale-snapping is an explicit experimental option.
+    if os.getenv("CORREGIR_ESCALA", "0") == "1":
+        correccion.corregir(archivo_midi, tonalidad)
 
     # La pista se crea con el instrumento elegido en ese momento para el micrófono.
     pista = proyectos.midi_a_pista(archivo_midi, proyectos.nombre_libre(proyecto, "Melodia"), canal,
@@ -241,15 +244,36 @@ def generar_sugerencia(idea, canal=None):
     canal = pista a la que acompaña (de ahí sale el pulso); sin canal, la última melodía grabada."""
     if canal is None or canal == CANAL_IA:
         canal = ultima_melodia
+    if any(p.name.startswith("Sugerencia IA") and proyectos.canal_de_pista(p) == canal
+           for p in proyecto.tracks):
+        canal = ultima_melodia
+    motor = os.getenv("ACOMPANAMIENTO_MOTOR", "ensemble")
     try:
+        if motor not in ("midigpt", "tonal", "ensemble", "ensamble"):
+            raise ValueError(f"Motor desconocido: {motor}")
         archivo = os.path.join(proyectos.CARPETA, nombre + ".mid")
         tonalidad = correccion.texto_tonalidad(correccion.detectar_tonalidad(archivo))
-        melodia_txt = correccion.midi_txt(archivo)
+        melodia_txt = correccion.midi_txt(archivo, canal)
         try:
             datos = gem.pedir_arreglo_json(idea, melodia_txt, tonalidad)
-            print(f"Arreglo pedido a MIDI-GPT: {datos}")
-            pista = sugerencia.pista_con_midigpt(datos, proyecto, canal)
+            configuracion = os.getenv("ARREGLO_CONFIG")
+            if configuracion and motor != "midigpt":
+                with open(configuracion, encoding="utf-8") as f:
+                    datos.update(json.load(f))
+            print(f"Arreglo pedido a {motor}: {datos}")
+            if motor in ("ensemble", "ensamble"):
+                datos.setdefault("ritmo_armonico", "libre")
+                prueba, informe = sugerencia.ensamble(datos, proyecto, canal)
+                sugerencia.proponer_ensamble(prueba, informe, proyecto, nombre)
+                enviar_pistas()
+                return
+            if motor == "tonal":
+                pista = sugerencia.pista_tonal(datos, proyecto, canal)
+            else:
+                pista = sugerencia.pista_con_midigpt(datos, proyecto, canal)
         except Exception as e:
+            if motor != "midigpt":
+                raise  # Do not disguise a rejected tonal brief as another generator.
             print(f"MIDI-GPT no pudo generar ({e}). Se usan los acordes de Gemini.")
             datos = gem.pedir_sugerencia_json(idea, melodia_txt, tonalidad)
             pista = sugerencia.pista_con_acordes(datos, proyecto, canal)

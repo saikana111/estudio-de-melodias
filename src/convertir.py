@@ -12,6 +12,7 @@ output_dir = "midi/"
 def conversion(input_audio):
     if not os.path.exists(input_audio):
         raise FileNotFoundError(f"No se encontró el archivo de audio: {input_audio}")
+    os.makedirs(output_dir, exist_ok=True)
 
 # Llamada correcta con todos los argumentos requeridos
     predict_and_save(
@@ -54,7 +55,7 @@ def conversion(input_audio):
         os.rename(ruta_por_defecto, ruta_nueva)
         print(f"¡Conversión completada! Guardado como: '{nuevo_nombre}' en '{output_dir}'.")
     else:
-        print("Error: No se encontró el archivo generado por la librería.")
+        raise FileNotFoundError(f"Basic Pitch no generó {ruta_por_defecto}")
 
     nombre_archivo = f"{output_dir}{nuevo_nombre}" 
     return nombre_archivo

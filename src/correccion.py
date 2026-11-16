@@ -1,4 +1,6 @@
 import mido
+import json
+from musical import summarize
 from music21 import converter
 
 
@@ -41,21 +43,11 @@ def corregir(archivo, tonalidad):
     archivo_midi.save(archivo)
 
 
-def midi_txt(archivo):
+def midi_txt(archivo, canal=None):
     """Gemini no es capaz de leer archivos MIDI. Esta función recorre el archivo nota por
     nota y lo transforma en texto, con cada nota, su velocidad y su tiempo. Ese texto es
     el que se le envía a la IA para que pueda comprenderlo y dar sugerencias musicales."""
-    archivo_midi = mido.MidiFile(archivo)
-    texto = " "
-    for pista in archivo_midi.tracks:
-        tiempo_acumulado = 0
-        for mensaje in pista:
-            # Los mensajes tienen un tiempo "delta" (tiempo desde el evento anterior)
-            tiempo_acumulado += mensaje.time
-            # Filtrar solo los mensajes de nota musical
-            if mensaje.type == "note_on" and mensaje.velocity > 0:
-                texto = f"{texto} \n Nota: {mensaje.note} | Velocidad: {mensaje.velocity} | Canal: {mensaje.channel} | Tiempo: {tiempo_acumulado}"
-    return texto
+    return json.dumps(summarize(mido.MidiFile(archivo), canal), ensure_ascii=False)
 
 
     

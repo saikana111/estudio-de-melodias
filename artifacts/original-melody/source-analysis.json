@@ -1,0 +1,119 @@
+{
+  "ticks_per_quarter": 480,
+  "metadata": [],
+  "note_count": 13,
+  "truncated": false,
+  "key_candidates": [
+    {
+      "tonic": 4,
+      "mode": "major",
+      "name": "E major",
+      "score": 0.75264
+    },
+    {
+      "tonic": 11,
+      "mode": "major",
+      "name": "B major",
+      "score": 0.59867
+    },
+    {
+      "tonic": 1,
+      "mode": "minor",
+      "name": "Db minor",
+      "score": 0.56649
+    }
+  ],
+  "notes": [
+    {
+      "pitch": 59,
+      "start_quarters": 3.97292,
+      "duration_quarters": 2.64583,
+      "velocity": 93,
+      "channel": 0
+    },
+    {
+      "pitch": 64,
+      "start_quarters": 7.94583,
+      "duration_quarters": 0.72292,
+      "velocity": 95,
+      "channel": 0
+    },
+    {
+      "pitch": 66,
+      "start_quarters": 8.71458,
+      "duration_quarters": 0.92708,
+      "velocity": 97,
+      "channel": 0
+    },
+    {
+      "pitch": 64,
+      "start_quarters": 9.70833,
+      "duration_quarters": 2.49167,
+      "velocity": 100,
+      "channel": 0
+    },
+    {
+      "pitch": 62,
+      "start_quarters": 12.17292,
+      "duration_quarters": 0.8125,
+      "velocity": 99,
+      "channel": 0
+    },
+    {
+      "pitch": 61,
+      "start_quarters": 12.98542,
+      "duration_quarters": 1.95,
+      "velocity": 86,
+      "channel": 0
+    },
+    {
+      "pitch": 59,
+      "start_quarters": 16.35833,
+      "duration_quarters": 1.41458,
+      "velocity": 75,
+      "channel": 0
+    },
+    {
+      "pitch": 59,
+      "start_quarters": 17.77292,
+      "duration_quarters": 1.74167,
+      "velocity": 98,
+      "channel": 0
+    },
+    {
+      "pitch": 64,
+      "start_quarters": 21.11875,
+      "duration_quarters": 0.93125,
+      "velocity": 102,
+      "channel": 0
+    },
+    {
+      "pitch": 66,
+      "start_quarters": 21.93125,
+      "duration_quarters": 0.90417,
+      "velocity": 89,
+      "channel": 0
+    },
+    {
+      "pitch": 64,
+      "start_quarters": 22.83542,
+      "duration_quarters": 2.35,
+      "velocity": 102,
+      "channel": 0
+    },
+    {
+      "pitch": 62,
+      "start_quarters": 25.14167,
+      "duration_quarters": 0.90417,
+      "velocity": 98,
+      "channel": 0
+    },
+    {
+      "pitch": 61,
+      "start_quarters": 26.04583,
+      "duration_quarters": 2.69583,
+      "velocity": 103,
+      "channel": 0
+    }
+  ]
+}

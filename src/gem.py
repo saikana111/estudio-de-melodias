@@ -10,7 +10,8 @@ from contextlib import contextmanager
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, ConfigDict
+from typing import Literal
 from groq import Groq
 import numpy as np
 import scipy.io.wavfile as wavfile
@@ -24,7 +25,7 @@ import reproducir
 
 load_dotenv()
 
-MODELO = "gemini-3.5-flash-lite"
+MODELO = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
 
 @contextmanager
@@ -373,11 +374,14 @@ def acepto_sugerencia(propuesta, mensaje):
 # MIDI-GPT (acompanante.py) escribe las notas. Las palabras de cada campo son las que
 # acompanante.py sabe traducir a los controles del modelo.
 class Arreglo(BaseModel):
-    instrumento: int   # número 0-127 de General MIDI
-    voces: int         # notas que suenan a la vez: 1 = una sola, 3 o 4 = acordes
-    notas: str         # "cortas", "medias" o "largas"
-    espacio: str       # "poco", "medio" o "mucho" silencio entre las notas
-    registro: str      # "grave", "medio" o "agudo"
+    model_config = ConfigDict(extra="forbid", strict=True)
+    instrumento: int = Field(ge=0, le=127)
+    voces: int = Field(ge=1, le=4)
+    notas: Literal["cortas", "medias", "largas"]
+    espacio: Literal["poco", "medio", "mucho"]
+    registro: Literal["grave", "medio", "agudo"]
+    disposicion: Literal["cerrada", "abierta"] = "cerrada"
+    patron: Literal["bloques", "arpegio", "sostenido"] = "bloques"
 
 
 ultimo_arreglo = None   # el último que se pidió, para que "más grave" o "menos notas" parta de ahí
@@ -395,6 +399,8 @@ def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad):
         "- espacio: cuánto silencio deja entre las notas: \"poco\", \"medio\" o \"mucho\".\n"
         "- registro: \"grave\", \"medio\" o \"agudo\". Si no se pide otra cosa, elegí uno distinto "
         "al de la melodía para que no se pisen.\n"
+        "- disposicion: cerrada o abierta (separación de las voces).\n"
+        "- patron: bloques, arpegio o sostenido. Sostenido evita imponer golpes a un canto libre.\n"
         f"Sugerencia aceptada: {idea_aceptada}\n"
         f"Tonalidad de la melodía: {tonalidad}\n"
         f"Melodía: {melodia_txt}"
@@ -412,7 +418,7 @@ def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad):
                 temperature=0.3,
             ),
         )
-    ultimo_arreglo = json.loads(respuesta.text)  # convierte el texto JSON en un diccionario
+    ultimo_arreglo = Arreglo.model_validate_json(respuesta.text).model_dump()
     return ultimo_arreglo
 
 
@@ -421,12 +427,12 @@ def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad):
 # a responder con estas claves y estos tipos (sin esto a veces inventa otra estructura).
 class Acorde(BaseModel):
     cifrado: str   # cifrado americano, por ejemplo "Am" o "Cmaj7"
-    tiempos: int   # cuántos tiempos dura
+    tiempos: int = Field(ge=1, le=32)
 
 
 class Sugerencia(BaseModel):
-    instrumento: int        # número 0-127 de General MIDI
-    acordes: list[Acorde]
+    instrumento: int = Field(ge=0, le=127)
+    acordes: list[Acorde] = Field(min_length=1, max_length=128)
 
 
 def pedir_sugerencia_json(idea_aceptada, melodia_txt, tonalidad):
@@ -447,7 +453,7 @@ def pedir_sugerencia_json(idea_aceptada, melodia_txt, tonalidad):
             temperature=0.3,
         ),
     )
-    return json.loads(respuesta.text)  # convierte el texto JSON en un diccionario
+    return Sugerencia.model_validate_json(respuesta.text).model_dump()
 
 
 # ---------- Corrección del nombre ----------

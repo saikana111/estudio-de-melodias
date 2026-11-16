@@ -1,0 +1,112 @@
+{
+  "key": {
+    "tonic": 0,
+    "mode": "major"
+  },
+  "key_candidates": [
+    {
+      "tonic": 0,
+      "mode": "major",
+      "name": "C major",
+      "score": 0.91397
+    },
+    {
+      "tonic": 4,
+      "mode": "minor",
+      "name": "E minor",
+      "score": 0.74986
+    },
+    {
+      "tonic": 9,
+      "mode": "minor",
+      "name": "A minor",
+      "score": 0.71678
+    }
+  ],
+  "warnings": [
+    "Grid uses MIDI PPQ; transcription at 120 BPM does not prove the performed tempo."
+  ],
+  "beat_ticks": 480,
+  "repeated_motif": null,
+  "brief": {
+    "instrumento": 33,
+    "voces": 1,
+    "notas": "largas",
+    "espacio": "medio",
+    "registro": "grave",
+    "disposicion": "cerrada",
+    "patron": "bloques",
+    "tonic": 0,
+    "mode": "major",
+    "beat_ticks": null,
+    "downbeat": 0,
+    "numerator": 4,
+    "denominator": 4,
+    "bars_per_chord": 1,
+    "cambios": [],
+    "ritmo_armonico": "compases",
+    "costo_cambio": 3.0,
+    "repetir_armonia": true
+  },
+  "source_notes": 16,
+  "generated_notes": 4,
+  "harmony": [
+    {
+      "start_tick": 0,
+      "end_tick": 1920,
+      "roman": "I",
+      "pitch_classes": [
+        0,
+        4,
+        7
+      ],
+      "voicing": [
+        36
+      ]
+    },
+    {
+      "start_tick": 1920,
+      "end_tick": 3840,
+      "roman": "IV",
+      "pitch_classes": [
+        5,
+        9,
+        0
+      ],
+      "voicing": [
+        41
+      ]
+    },
+    {
+      "start_tick": 3840,
+      "end_tick": 5760,
+      "roman": "V",
+      "pitch_classes": [
+        7,
+        11,
+        2
+      ],
+      "voicing": [
+        43
+      ]
+    },
+    {
+      "start_tick": 5760,
+      "end_tick": 7640,
+      "roman": "I",
+      "pitch_classes": [
+        0,
+        4,
+        7
+      ],
+      "voicing": [
+        48
+      ]
+    }
+  ],
+  "limitations": [
+    "Diatonic triads plus minor dominant; no modulation or jazz harmony.",
+    "Voice-leading costs are heuristics, not strict counterpoint rules.",
+    "Other accompaniment tracks are not reharmonized or collision-checked."
+  ]
+}

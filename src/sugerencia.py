@@ -1,4 +1,6 @@
 import random
+import json
+import os
 
 import mido
 from music21 import harmony
@@ -8,9 +10,39 @@ import esp32
 import gem
 import proyectos
 import reproducir
+from musical import Brief, accompany
+from project_arrangement import candidate
+from ensemble import Ensemble
+
+
+def ensamble(datos, proyecto, canal_melodia=0):
+    return candidate(proyecto, Brief(**datos), canal_melodia,
+                     Ensemble(harmony_program=datos.get("instrumento", 48)))
+
+
+def proponer_ensamble(prueba, informe, proyecto, nombre):
+    """Preview/accept the entire generated group, retaining all source tracks."""
+    esp32.enviar("PANTALLA:SUGERENCIA")
+    reproducir.reproducir_proyecto(prueba)
+    if esp32.esperar_si_no():
+        proyecto.tracks = prueba.tracks
+        proyecto.type = 1
+        proyectos.guardar(proyecto, nombre)
+        with open(os.path.join(proyectos.CARPETA, nombre + ".arrangement.json"), "w", encoding="utf-8") as f:
+            json.dump(informe, f, indent=2, ensure_ascii=False)
+        return True
+    gem.hablar("El usuario escuchó el ensamble y lo rechazó. Preguntale qué quiere cambiar.")
+    return False
 
 # La sugerencia de la IA siempre usa el canal 2 (ver Multipista con FluidSynth)
 CANAL_IA = 2
+
+
+def pista_tonal(datos, proyecto, canal_melodia=0):
+    """Offline harmonic planner, compatible with the existing arrangement brief."""
+    pista, informe = accompany(proyecto, Brief(**datos), canal_melodia, CANAL_IA)
+    print("Plan tonal:", informe)
+    return pista
 
 # Cuánto dura cada golpe respecto de su lugar en la grilla. 0.85 deja un respiro
 # antes del golpe siguiente; con 1.0 las notas quedan pegadas (acordes "colgados").
@@ -154,7 +186,8 @@ def pista_con_midigpt(datos, proyecto, canal_melodia=0):
     onsets = onsets_melodia(proyecto, canal_melodia)
     _, pulso = grilla_de_pulso(onsets, proyecto.ticks_per_beat)
     # El modelo escucha todo menos la sugerencia anterior, que es la que se va a reemplazar.
-    contexto = [p for p in proyecto.tracks if proyectos.canal_de_pista(p) not in (None, CANAL_IA)]
+    contexto = [p for p in proyecto.tracks if proyectos.canal_de_pista(p) not in (None, CANAL_IA)
+                and not p.name.startswith("Sugerencia IA")]
     with gem.cronometro("MIDI-GPT (escribir las notas)"):
         notas = acompanante.generar(contexto, proyecto.ticks_per_beat, onsets, pulso, datos)
 
@@ -187,13 +220,14 @@ def proponer_sugerencia(pista, proyecto, nombre):
     # Si ya había una sugerencia aceptada antes, en la prueba se escucha la nueva en su lugar.
     prueba = mido.MidiFile(type=1, ticks_per_beat=proyecto.ticks_per_beat)
     prueba.tracks = [p for p in proyecto.tracks
-                     if proyectos.canal_de_pista(p) != CANAL_IA] + [pista]
+                     if proyectos.canal_de_pista(p) != CANAL_IA
+                     and not p.name.startswith("Sugerencia IA")] + [pista]
 
     esp32.enviar("PANTALLA:SUGERENCIA")  # "¿Aceptar sugerencia?" Sí / No
     reproducir.reproducir_proyecto(prueba)
 
     if esp32.esperar_si_no():  # Sí: se agrega (reemplazando la anterior) y se guarda
-        proyectos.poner_pista(proyecto, pista)
+        proyecto.tracks = prueba.tracks
         proyectos.guardar(proyecto, nombre)
         return True
 

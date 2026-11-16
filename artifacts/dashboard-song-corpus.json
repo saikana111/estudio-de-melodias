@@ -1,0 +1,520 @@
+{
+  "mode": "song",
+  "files": 23,
+  "ok": 12,
+  "unsupported": 11,
+  "errors": 0,
+  "scope": "Structural compatibility, not listening quality",
+  "results": [
+    {
+      "file": "grabacion_melodia_basic_pitch1.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 51.23,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 31,
+          "range": [
+            57,
+            68
+          ],
+          "keys": [
+            {
+              "tonic": 11,
+              "mode": "minor",
+              "name": "B minor",
+              "score": 0.55097
+            },
+            {
+              "tonic": 11,
+              "mode": "major",
+              "name": "B major",
+              "score": 0.40133
+            },
+            {
+              "tonic": 6,
+              "mode": "major",
+              "name": "Gb major",
+              "score": 0.35543
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.605
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch10.mid",
+      "status": "unsupported",
+      "reason": "Song grammar currently accepts a 4..64-note seed melody",
+      "runtime_seconds": 0.017
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch11.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 95.88,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 39,
+          "range": [
+            61,
+            71
+          ],
+          "keys": [
+            {
+              "tonic": 7,
+              "mode": "major",
+              "name": "G major",
+              "score": 0.61311
+            },
+            {
+              "tonic": 2,
+              "mode": "major",
+              "name": "D major",
+              "score": 0.55783
+            },
+            {
+              "tonic": 7,
+              "mode": "minor",
+              "name": "G minor",
+              "score": 0.514
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.963
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch12.mid",
+      "status": "unsupported",
+      "reason": "No pitched notes found; percussion-only MIDI is not supported",
+      "runtime_seconds": 0.0
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch13.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 20.41,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 7,
+          "range": [
+            65,
+            69
+          ],
+          "keys": [
+            {
+              "tonic": 7,
+              "mode": "minor",
+              "name": "G minor",
+              "score": 0.61716
+            },
+            {
+              "tonic": 7,
+              "mode": "major",
+              "name": "G major",
+              "score": 0.55193
+            },
+            {
+              "tonic": 0,
+              "mode": "major",
+              "name": "C major",
+              "score": 0.4558
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.129
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch14.mid",
+      "status": "unsupported",
+      "reason": "No pitched notes found; percussion-only MIDI is not supported",
+      "runtime_seconds": 0.0
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch15.mid",
+      "status": "unsupported",
+      "reason": "No pitched notes found; percussion-only MIDI is not supported",
+      "runtime_seconds": 0.0
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch16.mid",
+      "status": "unsupported",
+      "reason": "No pitched notes found; percussion-only MIDI is not supported",
+      "runtime_seconds": 0.0
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch17.mid",
+      "status": "unsupported",
+      "reason": "No pitched notes found; percussion-only MIDI is not supported",
+      "runtime_seconds": 0.0
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch18.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 23.51,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 9,
+          "range": [
+            65,
+            69
+          ],
+          "keys": [
+            {
+              "tonic": 7,
+              "mode": "minor",
+              "name": "G minor",
+              "score": 0.51291
+            },
+            {
+              "tonic": 7,
+              "mode": "major",
+              "name": "G major",
+              "score": 0.43694
+            },
+            {
+              "tonic": 0,
+              "mode": "major",
+              "name": "C major",
+              "score": 0.35665
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.149
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch19.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 47.67,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 14,
+          "range": [
+            67,
+            71
+          ],
+          "keys": [
+            {
+              "tonic": 9,
+              "mode": "minor",
+              "name": "A minor",
+              "score": 0.3604
+            },
+            {
+              "tonic": 9,
+              "mode": "major",
+              "name": "A major",
+              "score": 0.30596
+            },
+            {
+              "tonic": 7,
+              "mode": "minor",
+              "name": "G minor",
+              "score": 0.20364
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.361
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch2.mid",
+      "status": "unsupported",
+      "reason": "Song grammar currently accepts a 4..64-note seed melody",
+      "runtime_seconds": 0.014
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch20.mid",
+      "status": "unsupported",
+      "reason": "Song grammar currently accepts a 4..64-note seed melody",
+      "runtime_seconds": 0.012
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch21.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 46.49,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 18,
+          "range": [
+            60,
+            67
+          ],
+          "keys": [
+            {
+              "tonic": 7,
+              "mode": "major",
+              "name": "G major",
+              "score": 0.728
+            },
+            {
+              "tonic": 4,
+              "mode": "minor",
+              "name": "E minor",
+              "score": 0.71881
+            },
+            {
+              "tonic": 0,
+              "mode": "major",
+              "name": "C major",
+              "score": 0.69262
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.326
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch22.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 177.88,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 26,
+          "range": [
+            44,
+            70
+          ],
+          "keys": [
+            {
+              "tonic": 1,
+              "mode": "major",
+              "name": "Db major",
+              "score": 0.87754
+            },
+            {
+              "tonic": 8,
+              "mode": "major",
+              "name": "Ab major",
+              "score": 0.56162
+            },
+            {
+              "tonic": 5,
+              "mode": "minor",
+              "name": "F minor",
+              "score": 0.55568
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.557
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch23.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 51.77,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 13,
+          "range": [
+            61,
+            79
+          ],
+          "keys": [
+            {
+              "tonic": 6,
+              "mode": "minor",
+              "name": "Gb minor",
+              "score": 0.64065
+            },
+            {
+              "tonic": 6,
+              "mode": "major",
+              "name": "Gb major",
+              "score": 0.49137
+            },
+            {
+              "tonic": 1,
+              "mode": "minor",
+              "name": "Db minor",
+              "score": 0.41644
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.208
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch3.mid",
+      "status": "unsupported",
+      "reason": "Song grammar currently accepts a 4..64-note seed melody",
+      "runtime_seconds": 0.014
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch4.mid",
+      "status": "unsupported",
+      "reason": "Song grammar currently accepts a 4..64-note seed melody",
+      "runtime_seconds": 0.013
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch5.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 45.24,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 11,
+          "range": [
+            57,
+            64
+          ],
+          "keys": [
+            {
+              "tonic": 9,
+              "mode": "major",
+              "name": "A major",
+              "score": 0.63732
+            },
+            {
+              "tonic": 1,
+              "mode": "minor",
+              "name": "Db minor",
+              "score": 0.55335
+            },
+            {
+              "tonic": 11,
+              "mode": "minor",
+              "name": "B minor",
+              "score": 0.42946
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.278
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch6.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 37.84,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 8,
+          "range": [
+            64,
+            69
+          ],
+          "keys": [
+            {
+              "tonic": 6,
+              "mode": "minor",
+              "name": "Gb minor",
+              "score": 0.4994
+            },
+            {
+              "tonic": 4,
+              "mode": "minor",
+              "name": "E minor",
+              "score": 0.44898
+            },
+            {
+              "tonic": 6,
+              "mode": "major",
+              "name": "Gb major",
+              "score": 0.31928
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.218
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch7.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 31.85,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 9,
+          "range": [
+            60,
+            66
+          ],
+          "keys": [
+            {
+              "tonic": 0,
+              "mode": "minor",
+              "name": "C minor",
+              "score": 0.66191
+            },
+            {
+              "tonic": 0,
+              "mode": "major",
+              "name": "C major",
+              "score": 0.33049
+            },
+            {
+              "tonic": 8,
+              "mode": "major",
+              "name": "Ab major",
+              "score": 0.31582
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.192
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch8.mid",
+      "status": "unsupported",
+      "reason": "Song grammar currently accepts a 4..64-note seed melody",
+      "runtime_seconds": 0.012
+    },
+    {
+      "file": "grabacion_melodia_basic_pitch9.mid",
+      "status": "ok",
+      "melody_channel": 0,
+      "seconds": 33.25,
+      "channels": [
+        {
+          "channel": 0,
+          "notes": 7,
+          "range": [
+            57,
+            64
+          ],
+          "keys": [
+            {
+              "tonic": 0,
+              "mode": "major",
+              "name": "C major",
+              "score": 0.46324
+            },
+            {
+              "tonic": 9,
+              "mode": "minor",
+              "name": "A minor",
+              "score": 0.44367
+            },
+            {
+              "tonic": 4,
+              "mode": "minor",
+              "name": "E minor",
+              "score": 0.42592
+            }
+          ]
+        }
+      ],
+      "runtime_seconds": 0.185
+    }
+  ]
+}

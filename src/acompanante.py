@@ -12,6 +12,7 @@ import tempfile
 
 import mido
 import numpy as np
+from score_notes import score_track_notes
 
 MODELO = "expressive_medium"   # el que mejor sonó en las pruebas (hay también yellow y prism)
 COMPASES_MINIMOS = 4           # el modelo trabaja con ventanas de 4 compases o más
@@ -190,7 +191,6 @@ def generar(pistas, ticks_por_tiempo, onsets, pulso, datos):
 
     with tempfile.TemporaryDirectory() as carpeta:
         entrada = os.path.join(carpeta, "contexto.mid")
-        salida = os.path.join(carpeta, "generado.mid")
         contexto.save(entrada)
         musica = Score.from_midi(entrada)
         cantidad = len(musica.tracks)
@@ -210,16 +210,15 @@ def generar(pistas, ticks_por_tiempo, onsets, pulso, datos):
                 bar_attributes={c: dict(de_compas) for c in range(compases)} if de_compas else {})],
             config=InferenceConfig(model_dim="auto", mask_mode="attention"))
         resultado = motor().session(musica, pedido).run()
-        resultado.to_midi(salida)
-        generado = mido.MidiFile(salida)
 
     # 4) De la música generada interesa solo la pista nueva. Sus tiempos vuelven de la
     #    partitura al tiempo real con la misma tabla, leída al revés.
-    escala = ticks_por_tiempo / generado.ticks_per_beat   # la librería usa otra resolución
     notas = []
-    for inicio, fin, nota, velocity in notas_de_pista(generado.tracks[cantidad]):
-        a = round(float(np.interp(inicio * escala, partitura, reales)))
-        b = round(float(np.interp(fin * escala, partitura, reales)))
+    # Read the logical track directly; avoid a redundant MIDI round trip and
+    # dependence on writer-specific track ordering. v0.4.2's writer preserves it.
+    for inicio, fin, nota, velocity in score_track_notes(resultado, cantidad, ticks_por_tiempo):
+        a = round(float(np.interp(inicio, partitura, reales)))
+        b = round(float(np.interp(fin, partitura, reales)))
         notas.append((a, max(a + 1, b), nota, velocity))
 
     # El modelo completa el último compás aunque la grabación termine antes: lo que empieza

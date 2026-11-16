@@ -1,0 +1,45 @@
+{
+  "instrumento": 0,
+  "voces": 3,
+  "notas": "largas",
+  "espacio": "medio",
+  "registro": "grave",
+  "disposicion": "abierta",
+  "patron": "sostenido",
+  "tonic": 11,
+  "mode": "minor",
+  "beat_ticks": null,
+  "downbeat": 0,
+  "numerator": 4,
+  "denominator": 4,
+  "bars_per_chord": 1,
+  "cambios": [
+    [
+      1907,
+      "i"
+    ],
+    [
+      3814,
+      "iv"
+    ],
+    [
+      5843,
+      "VII"
+    ],
+    [
+      7852,
+      "i"
+    ],
+    [
+      10137,
+      "iv"
+    ],
+    [
+      12068,
+      "VII"
+    ]
+  ],
+  "ritmo_armonico": "compases",
+  "costo_cambio": 3.0,
+  "repetir_armonia": true
+}
