@@ -1,0 +1,8 @@
+# Missing direct imports in the original requirements.txt.
+# Install alongside the original environment; this is NOT a verified full lockfile.
+google-genai>=1,<2
+pydantic>=2,<3
+edge-tts>=7,<8
+gTTS>=2.5,<3
+pygame>=2.6,<3
+# Optional local speech fallback requires openai-whisper and FFmpeg separately.

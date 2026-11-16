@@ -1,0 +1,1237 @@
+{
+  "files": 38,
+  "passed": 33,
+  "meaning": "Structural checks only, not listening quality or transcription accuracy.",
+  "results": [
+    {
+      "file": "midi/grabacion_melodia_basic_pitch1.mid",
+      "status": "ok",
+      "seconds": 0.0169,
+      "notes": 31,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 11,
+          "mode": "minor",
+          "name": "B minor",
+          "score": 0.55097
+        },
+        {
+          "tonic": 11,
+          "mode": "major",
+          "name": "B major",
+          "score": 0.40133
+        },
+        {
+          "tonic": 6,
+          "mode": "major",
+          "name": "Gb major",
+          "score": 0.35543
+        }
+      ],
+      "harmony": [
+        "i",
+        "i",
+        "ii\u00b0",
+        "v",
+        "i",
+        "ii\u00b0",
+        "v",
+        "i"
+      ],
+      "overlapping_note_pairs": 1
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch10.mid",
+      "status": "ok",
+      "seconds": 0.0062,
+      "notes": 3,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 9,
+          "mode": "minor",
+          "name": "A minor",
+          "score": 0.56102
+        },
+        {
+          "tonic": 0,
+          "mode": "minor",
+          "name": "C minor",
+          "score": 0.47222
+        },
+        {
+          "tonic": 8,
+          "mode": "major",
+          "name": "Ab major",
+          "score": 0.45842
+        }
+      ],
+      "harmony": [
+        "i",
+        "V"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch11.mid",
+      "status": "ok",
+      "seconds": 0.0308,
+      "notes": 39,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 7,
+          "mode": "major",
+          "name": "G major",
+          "score": 0.61311
+        },
+        {
+          "tonic": 2,
+          "mode": "major",
+          "name": "D major",
+          "score": 0.55783
+        },
+        {
+          "tonic": 7,
+          "mode": "minor",
+          "name": "G minor",
+          "score": 0.514
+        }
+      ],
+      "harmony": [
+        "I",
+        "vi",
+        "V",
+        "vii\u00b0",
+        "vii\u00b0",
+        "I",
+        "IV",
+        "V",
+        "iii",
+        "IV",
+        "I",
+        "ii",
+        "V",
+        "V",
+        "I"
+      ],
+      "overlapping_note_pairs": 3
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch12.mid",
+      "status": "error",
+      "error": "Selected melody channel has no notes"
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch13.mid",
+      "status": "ok",
+      "seconds": 0.0099,
+      "notes": 7,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 7,
+          "mode": "minor",
+          "name": "G minor",
+          "score": 0.61716
+        },
+        {
+          "tonic": 7,
+          "mode": "major",
+          "name": "G major",
+          "score": 0.55193
+        },
+        {
+          "tonic": 0,
+          "mode": "major",
+          "name": "C major",
+          "score": 0.4558
+        }
+      ],
+      "harmony": [
+        "i",
+        "iv",
+        "i"
+      ],
+      "overlapping_note_pairs": 1
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch14.mid",
+      "status": "error",
+      "error": "Selected melody channel has no notes"
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch15.mid",
+      "status": "error",
+      "error": "Selected melody channel has no notes"
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch16.mid",
+      "status": "error",
+      "error": "Selected melody channel has no notes"
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch17.mid",
+      "status": "error",
+      "error": "Selected melody channel has no notes"
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch18.mid",
+      "status": "ok",
+      "seconds": 0.009,
+      "notes": 9,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 7,
+          "mode": "minor",
+          "name": "G minor",
+          "score": 0.51291
+        },
+        {
+          "tonic": 7,
+          "mode": "major",
+          "name": "G major",
+          "score": 0.43694
+        },
+        {
+          "tonic": 0,
+          "mode": "major",
+          "name": "C major",
+          "score": 0.35665
+        }
+      ],
+      "harmony": [
+        "v",
+        "v",
+        "i"
+      ],
+      "overlapping_note_pairs": 2
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch19.mid",
+      "status": "ok",
+      "seconds": 0.0171,
+      "notes": 14,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 9,
+          "mode": "minor",
+          "name": "A minor",
+          "score": 0.3604
+        },
+        {
+          "tonic": 9,
+          "mode": "major",
+          "name": "A major",
+          "score": 0.30596
+        },
+        {
+          "tonic": 7,
+          "mode": "minor",
+          "name": "G minor",
+          "score": 0.20364
+        }
+      ],
+      "harmony": [
+        "V",
+        "i",
+        "iv",
+        "V",
+        "i",
+        "v"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch2.mid",
+      "status": "ok",
+      "seconds": 0.0057,
+      "notes": 2,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 2,
+          "mode": "major",
+          "name": "D major",
+          "score": 0.68447
+        },
+        {
+          "tonic": 2,
+          "mode": "minor",
+          "name": "D minor",
+          "score": 0.68419
+        },
+        {
+          "tonic": 11,
+          "mode": "minor",
+          "name": "B minor",
+          "score": 0.43619
+        }
+      ],
+      "harmony": [
+        "I",
+        "I"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch20.mid",
+      "status": "ok",
+      "seconds": 0.0057,
+      "notes": 1,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 10,
+          "mode": "major",
+          "name": "Bb major",
+          "score": 0.68447
+        },
+        {
+          "tonic": 10,
+          "mode": "minor",
+          "name": "Bb minor",
+          "score": 0.68419
+        },
+        {
+          "tonic": 7,
+          "mode": "minor",
+          "name": "G minor",
+          "score": 0.43619
+        }
+      ],
+      "harmony": [
+        "I"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch21.mid",
+      "status": "ok",
+      "seconds": 0.0134,
+      "notes": 18,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 7,
+          "mode": "major",
+          "name": "G major",
+          "score": 0.728
+        },
+        {
+          "tonic": 4,
+          "mode": "minor",
+          "name": "E minor",
+          "score": 0.71881
+        },
+        {
+          "tonic": 0,
+          "mode": "major",
+          "name": "C major",
+          "score": 0.69262
+        }
+      ],
+      "harmony": [
+        "IV",
+        "IV",
+        "I",
+        "I",
+        "vi",
+        "IV",
+        "I"
+      ],
+      "overlapping_note_pairs": 2
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch22.mid",
+      "status": "ok",
+      "seconds": 0.0253,
+      "notes": 26,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 1,
+          "mode": "major",
+          "name": "Db major",
+          "score": 0.87754
+        },
+        {
+          "tonic": 8,
+          "mode": "major",
+          "name": "Ab major",
+          "score": 0.56162
+        },
+        {
+          "tonic": 5,
+          "mode": "minor",
+          "name": "F minor",
+          "score": 0.55568
+        }
+      ],
+      "harmony": [
+        "I",
+        "ii",
+        "vii\u00b0",
+        "I",
+        "V",
+        "I",
+        "IV",
+        "I",
+        "IV",
+        "I",
+        "V",
+        "I",
+        "IV",
+        "I",
+        "IV",
+        "I",
+        "IV",
+        "I",
+        "IV",
+        "I",
+        "V",
+        "I",
+        "IV",
+        "I",
+        "IV",
+        "I",
+        "IV",
+        "ii",
+        "vii\u00b0"
+      ],
+      "overlapping_note_pairs": 2
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch23.mid",
+      "status": "ok",
+      "seconds": 0.0113,
+      "notes": 13,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 6,
+          "mode": "minor",
+          "name": "Gb minor",
+          "score": 0.64065
+        },
+        {
+          "tonic": 6,
+          "mode": "major",
+          "name": "Gb major",
+          "score": 0.49137
+        },
+        {
+          "tonic": 1,
+          "mode": "minor",
+          "name": "Db minor",
+          "score": 0.41644
+        }
+      ],
+      "harmony": [
+        "i",
+        "v",
+        "v",
+        "i",
+        "iv",
+        "v",
+        "i"
+      ],
+      "overlapping_note_pairs": 4
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch3.mid",
+      "status": "ok",
+      "seconds": 0.006,
+      "notes": 2,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 2,
+          "mode": "major",
+          "name": "D major",
+          "score": 0.68447
+        },
+        {
+          "tonic": 2,
+          "mode": "minor",
+          "name": "D minor",
+          "score": 0.68419
+        },
+        {
+          "tonic": 11,
+          "mode": "minor",
+          "name": "B minor",
+          "score": 0.43619
+        }
+      ],
+      "harmony": [
+        "I",
+        "I"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch4.mid",
+      "status": "ok",
+      "seconds": 0.0057,
+      "notes": 2,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 2,
+          "mode": "major",
+          "name": "D major",
+          "score": 0.68447
+        },
+        {
+          "tonic": 2,
+          "mode": "minor",
+          "name": "D minor",
+          "score": 0.68419
+        },
+        {
+          "tonic": 11,
+          "mode": "minor",
+          "name": "B minor",
+          "score": 0.43619
+        }
+      ],
+      "harmony": [
+        "I",
+        "I"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch5.mid",
+      "status": "ok",
+      "seconds": 0.0133,
+      "notes": 11,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 9,
+          "mode": "major",
+          "name": "A major",
+          "score": 0.63732
+        },
+        {
+          "tonic": 1,
+          "mode": "minor",
+          "name": "Db minor",
+          "score": 0.55335
+        },
+        {
+          "tonic": 11,
+          "mode": "minor",
+          "name": "B minor",
+          "score": 0.42946
+        }
+      ],
+      "harmony": [
+        "I",
+        "vi",
+        "V",
+        "I",
+        "ii",
+        "V"
+      ],
+      "overlapping_note_pairs": 1
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch6.mid",
+      "status": "ok",
+      "seconds": 0.0116,
+      "notes": 8,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 6,
+          "mode": "minor",
+          "name": "Gb minor",
+          "score": 0.4994
+        },
+        {
+          "tonic": 4,
+          "mode": "minor",
+          "name": "E minor",
+          "score": 0.44898
+        },
+        {
+          "tonic": 6,
+          "mode": "major",
+          "name": "Gb major",
+          "score": 0.31928
+        }
+      ],
+      "harmony": [
+        "i",
+        "v",
+        "III",
+        "iv",
+        "i"
+      ],
+      "overlapping_note_pairs": 1
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch7.mid",
+      "status": "ok",
+      "seconds": 0.012,
+      "notes": 9,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 0,
+          "mode": "minor",
+          "name": "C minor",
+          "score": 0.66191
+        },
+        {
+          "tonic": 0,
+          "mode": "major",
+          "name": "C major",
+          "score": 0.33049
+        },
+        {
+          "tonic": 8,
+          "mode": "major",
+          "name": "Ab major",
+          "score": 0.31582
+        }
+      ],
+      "harmony": [
+        "i",
+        "ii\u00b0",
+        "v",
+        "i"
+      ],
+      "overlapping_note_pairs": 1
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch8.mid",
+      "status": "ok",
+      "seconds": 0.0052,
+      "notes": 1,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 0,
+          "mode": "major",
+          "name": "C major",
+          "score": 0.68447
+        },
+        {
+          "tonic": 0,
+          "mode": "minor",
+          "name": "C minor",
+          "score": 0.68419
+        },
+        {
+          "tonic": 9,
+          "mode": "minor",
+          "name": "A minor",
+          "score": 0.43619
+        }
+      ],
+      "harmony": [
+        "I"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "midi/grabacion_melodia_basic_pitch9.mid",
+      "status": "ok",
+      "seconds": 0.0104,
+      "notes": 7,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 0,
+          "mode": "major",
+          "name": "C major",
+          "score": 0.46324
+        },
+        {
+          "tonic": 9,
+          "mode": "minor",
+          "name": "A minor",
+          "score": 0.44367
+        },
+        {
+          "tonic": 4,
+          "mode": "minor",
+          "name": "E minor",
+          "score": 0.42592
+        }
+      ],
+      "harmony": [
+        "I",
+        "vi",
+        "IV",
+        "V"
+      ],
+      "overlapping_note_pairs": 1
+    },
+    {
+      "file": "proyectos/proyecto_15-11_1924.mid",
+      "status": "ok",
+      "seconds": 0.0076,
+      "notes": 18,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 7,
+          "mode": "major",
+          "name": "G major",
+          "score": 0.72804
+        },
+        {
+          "tonic": 4,
+          "mode": "minor",
+          "name": "E minor",
+          "score": 0.71876
+        },
+        {
+          "tonic": 0,
+          "mode": "major",
+          "name": "C major",
+          "score": 0.69271
+        }
+      ],
+      "harmony": [
+        "IV",
+        "IV",
+        "I",
+        "I",
+        "vi",
+        "IV",
+        "I"
+      ],
+      "overlapping_note_pairs": 2
+    },
+    {
+      "file": "proyectos/proyecto_15-11_2000.mid",
+      "status": "ok",
+      "seconds": 0.0078,
+      "notes": 13,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 6,
+          "mode": "minor",
+          "name": "Gb minor",
+          "score": 0.64062
+        },
+        {
+          "tonic": 6,
+          "mode": "major",
+          "name": "Gb major",
+          "score": 0.49125
+        },
+        {
+          "tonic": 1,
+          "mode": "minor",
+          "name": "Db minor",
+          "score": 0.41626
+        }
+      ],
+      "harmony": [
+        "i",
+        "v",
+        "v",
+        "i",
+        "iv",
+        "v",
+        "i"
+      ],
+      "overlapping_note_pairs": 4
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitc.mid",
+      "status": "ok",
+      "seconds": 0.0175,
+      "notes": 26,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 2,
+          "mode": "minor",
+          "name": "D minor",
+          "score": 0.58181
+        },
+        {
+          "tonic": 10,
+          "mode": "minor",
+          "name": "Bb minor",
+          "score": 0.47263
+        },
+        {
+          "tonic": 5,
+          "mode": "major",
+          "name": "F major",
+          "score": 0.43917
+        }
+      ],
+      "harmony": [
+        "V",
+        "i",
+        "v",
+        "V",
+        "i",
+        "VI",
+        "VI",
+        "VI",
+        "III"
+      ],
+      "overlapping_note_pairs": 3
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch.mid",
+      "status": "ok",
+      "seconds": 0.0107,
+      "notes": 11,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 8,
+          "mode": "minor",
+          "name": "Ab minor",
+          "score": 0.6139
+        },
+        {
+          "tonic": 8,
+          "mode": "major",
+          "name": "Ab major",
+          "score": 0.45961
+        },
+        {
+          "tonic": 4,
+          "mode": "major",
+          "name": "E major",
+          "score": 0.3516
+        }
+      ],
+      "harmony": [
+        "i",
+        "i",
+        "VI",
+        "i"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch1.mid",
+      "status": "ok",
+      "seconds": 0.0231,
+      "notes": 30,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 2,
+          "mode": "minor",
+          "name": "D minor",
+          "score": 0.62894
+        },
+        {
+          "tonic": 5,
+          "mode": "major",
+          "name": "F major",
+          "score": 0.59437
+        },
+        {
+          "tonic": 10,
+          "mode": "major",
+          "name": "Bb major",
+          "score": 0.39414
+        }
+      ],
+      "harmony": [
+        "i",
+        "i",
+        "V",
+        "V",
+        "V",
+        "VI",
+        "VI",
+        "VI",
+        "III"
+      ],
+      "overlapping_note_pairs": 3
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch2.mid",
+      "status": "ok",
+      "seconds": 0.0347,
+      "notes": 61,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 6,
+          "mode": "minor",
+          "name": "Gb minor",
+          "score": 0.43215
+        },
+        {
+          "tonic": 6,
+          "mode": "major",
+          "name": "Gb major",
+          "score": 0.34087
+        },
+        {
+          "tonic": 11,
+          "mode": "major",
+          "name": "B major",
+          "score": 0.32915
+        }
+      ],
+      "harmony": [
+        "VI",
+        "iv",
+        "i",
+        "v",
+        "VI",
+        "iv",
+        "V",
+        "V",
+        "i",
+        "iv",
+        "V",
+        "V"
+      ],
+      "overlapping_note_pairs": 6
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch3.mid",
+      "status": "ok",
+      "seconds": 0.0622,
+      "notes": 63,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 1,
+          "mode": "major",
+          "name": "Db major",
+          "score": 0.5811
+        },
+        {
+          "tonic": 6,
+          "mode": "major",
+          "name": "Gb major",
+          "score": 0.55583
+        },
+        {
+          "tonic": 6,
+          "mode": "minor",
+          "name": "Gb minor",
+          "score": 0.37093
+        }
+      ],
+      "harmony": [
+        "vi",
+        "IV",
+        "V",
+        "IV",
+        "V",
+        "vi",
+        "IV",
+        "IV",
+        "I",
+        "vi",
+        "ii"
+      ],
+      "overlapping_note_pairs": 3
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch4.mid",
+      "status": "ok",
+      "seconds": 0.0354,
+      "notes": 35,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 10,
+          "mode": "minor",
+          "name": "Bb minor",
+          "score": 0.7683
+        },
+        {
+          "tonic": 10,
+          "mode": "major",
+          "name": "Bb major",
+          "score": 0.52399
+        },
+        {
+          "tonic": 6,
+          "mode": "major",
+          "name": "Gb major",
+          "score": 0.38267
+        }
+      ],
+      "harmony": [
+        "VI",
+        "iv",
+        "v",
+        "i",
+        "iv",
+        "i",
+        "VI",
+        "iv",
+        "v",
+        "VI",
+        "iv",
+        "v",
+        "v",
+        "VI"
+      ],
+      "overlapping_note_pairs": 9
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch5.mid",
+      "status": "ok",
+      "seconds": 0.0124,
+      "notes": 10,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 7,
+          "mode": "minor",
+          "name": "G minor",
+          "score": 0.73821
+        },
+        {
+          "tonic": 7,
+          "mode": "major",
+          "name": "G major",
+          "score": 0.70695
+        },
+        {
+          "tonic": 4,
+          "mode": "minor",
+          "name": "E minor",
+          "score": 0.50057
+        }
+      ],
+      "harmony": [
+        "i",
+        "iv",
+        "i",
+        "i"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch6.mid",
+      "status": "ok",
+      "seconds": 0.0108,
+      "notes": 11,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 8,
+          "mode": "minor",
+          "name": "Ab minor",
+          "score": 0.6139
+        },
+        {
+          "tonic": 8,
+          "mode": "major",
+          "name": "Ab major",
+          "score": 0.45961
+        },
+        {
+          "tonic": 4,
+          "mode": "major",
+          "name": "E major",
+          "score": 0.3516
+        }
+      ],
+      "harmony": [
+        "i",
+        "i",
+        "VI",
+        "i"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch7.mid",
+      "status": "ok",
+      "seconds": 0.0101,
+      "notes": 11,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 9,
+          "mode": "major",
+          "name": "A major",
+          "score": 0.52397
+        },
+        {
+          "tonic": 9,
+          "mode": "minor",
+          "name": "A minor",
+          "score": 0.49143
+        },
+        {
+          "tonic": 6,
+          "mode": "minor",
+          "name": "Gb minor",
+          "score": 0.48123
+        }
+      ],
+      "harmony": [
+        "I",
+        "IV",
+        "V",
+        "vii\u00b0"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch8.mid",
+      "status": "ok",
+      "seconds": 0.0128,
+      "notes": 13,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 3,
+          "mode": "major",
+          "name": "Eb major",
+          "score": 0.64209
+        },
+        {
+          "tonic": 8,
+          "mode": "major",
+          "name": "Ab major",
+          "score": 0.61953
+        },
+        {
+          "tonic": 0,
+          "mode": "minor",
+          "name": "C minor",
+          "score": 0.61065
+        }
+      ],
+      "harmony": [
+        "ii",
+        "IV",
+        "I"
+      ],
+      "overlapping_note_pairs": 2
+    },
+    {
+      "file": "pruebas_sonido/grabacion_basic_pitch9.mid",
+      "status": "ok",
+      "seconds": 0.0217,
+      "notes": 28,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 9,
+          "mode": "minor",
+          "name": "A minor",
+          "score": 0.38337
+        },
+        {
+          "tonic": 5,
+          "mode": "minor",
+          "name": "F minor",
+          "score": 0.31515
+        },
+        {
+          "tonic": 5,
+          "mode": "major",
+          "name": "F major",
+          "score": 0.30074
+        }
+      ],
+      "harmony": [
+        "i",
+        "VI",
+        "iv",
+        "ii\u00b0",
+        "V",
+        "i",
+        "ii\u00b0",
+        "v"
+      ],
+      "overlapping_note_pairs": 2
+    },
+    {
+      "file": "resultado_limpio.mid",
+      "status": "ok",
+      "seconds": 0.006,
+      "notes": 10,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 0,
+          "mode": "minor",
+          "name": "C minor",
+          "score": 0.67661
+        },
+        {
+          "tonic": 3,
+          "mode": "major",
+          "name": "Eb major",
+          "score": 0.6675
+        },
+        {
+          "tonic": 8,
+          "mode": "major",
+          "name": "Ab major",
+          "score": 0.6513
+        }
+      ],
+      "harmony": [
+        "iv",
+        "i",
+        "i"
+      ],
+      "overlapping_note_pairs": 0
+    },
+    {
+      "file": "resultado_limpio1.mid",
+      "status": "ok",
+      "seconds": 0.0093,
+      "notes": 24,
+      "source_unchanged": true,
+      "key_candidates": [
+        {
+          "tonic": 2,
+          "mode": "minor",
+          "name": "D minor",
+          "score": 0.59499
+        },
+        {
+          "tonic": 5,
+          "mode": "major",
+          "name": "F major",
+          "score": 0.42706
+        },
+        {
+          "tonic": 10,
+          "mode": "minor",
+          "name": "Bb minor",
+          "score": 0.29882
+        }
+      ],
+      "harmony": [
+        "V",
+        "i",
+        "i",
+        "V",
+        "V",
+        "VI",
+        "VI",
+        "VI",
+        "III"
+      ],
+      "overlapping_note_pairs": 0
+    }
+  ]
+}

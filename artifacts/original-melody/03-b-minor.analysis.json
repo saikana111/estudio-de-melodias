@@ -1,0 +1,175 @@
+{
+  "key": {
+    "tonic": 11,
+    "mode": "minor"
+  },
+  "key_candidates": [
+    {
+      "tonic": 4,
+      "mode": "major",
+      "name": "E major",
+      "score": 0.75264
+    },
+    {
+      "tonic": 11,
+      "mode": "major",
+      "name": "B major",
+      "score": 0.59867
+    },
+    {
+      "tonic": 1,
+      "mode": "minor",
+      "name": "Db minor",
+      "score": 0.56649
+    }
+  ],
+  "warnings": [],
+  "beat_ticks": 480,
+  "repeated_motif": null,
+  "brief": {
+    "instrumento": 0,
+    "voces": 3,
+    "notas": "largas",
+    "espacio": "medio",
+    "registro": "grave",
+    "disposicion": "abierta",
+    "patron": "sostenido",
+    "tonic": 11,
+    "mode": "minor",
+    "beat_ticks": null,
+    "downbeat": 0,
+    "numerator": 4,
+    "denominator": 4,
+    "bars_per_chord": 1,
+    "cambios": [
+      [
+        1907,
+        "i"
+      ],
+      [
+        3814,
+        "iv"
+      ],
+      [
+        5843,
+        "VII"
+      ],
+      [
+        7852,
+        "i"
+      ],
+      [
+        10137,
+        "iv"
+      ],
+      [
+        12068,
+        "VII"
+      ]
+    ],
+    "ritmo_armonico": "compases",
+    "costo_cambio": 3.0,
+    "repetir_armonia": true
+  },
+  "source_notes": 13,
+  "generated_notes": 18,
+  "harmony": [
+    {
+      "start_tick": 1907,
+      "end_tick": 3814,
+      "roman": "i",
+      "pitch_classes": [
+        11,
+        2,
+        6
+      ],
+      "voicing": [
+        38,
+        47,
+        54
+      ]
+    },
+    {
+      "start_tick": 3814,
+      "end_tick": 5843,
+      "roman": "iv",
+      "pitch_classes": [
+        4,
+        7,
+        11
+      ],
+      "voicing": [
+        40,
+        47,
+        55
+      ]
+    },
+    {
+      "start_tick": 5843,
+      "end_tick": 7852,
+      "roman": "VII",
+      "pitch_classes": [
+        9,
+        1,
+        4
+      ],
+      "voicing": [
+        40,
+        49,
+        57
+      ]
+    },
+    {
+      "start_tick": 7852,
+      "end_tick": 10137,
+      "roman": "i",
+      "pitch_classes": [
+        11,
+        2,
+        6
+      ],
+      "voicing": [
+        38,
+        47,
+        54
+      ]
+    },
+    {
+      "start_tick": 10137,
+      "end_tick": 12068,
+      "roman": "iv",
+      "pitch_classes": [
+        4,
+        7,
+        11
+      ],
+      "voicing": [
+        40,
+        47,
+        55
+      ]
+    },
+    {
+      "start_tick": 12068,
+      "end_tick": 13796,
+      "roman": "VII",
+      "pitch_classes": [
+        9,
+        1,
+        4
+      ],
+      "voicing": [
+        40,
+        49,
+        57
+      ]
+    }
+  ],
+  "limitations": [
+    "Diatonic triads plus minor dominant; no modulation or jazz harmony.",
+    "Voice-leading costs are heuristics, not strict counterpoint rules.",
+    "Other accompaniment tracks are not reharmonized or collision-checked."
+  ],
+  "source_preservation_verified_after_save": true,
+  "landmarks": "Hand-reviewed hypotheses for this recording; not inferred tempo or definitive harmony."
+}

@@ -1,0 +1,11 @@
+{
+  "tonic": 4,
+  "mode": "dorian",
+  "registro": "grave",
+  "disposicion": "abierta",
+  "voces": 3,
+  "patron": "sostenido",
+  "ritmo_armonico": "libre",
+  "costo_cambio": 1,
+  "repetir_armonia": true
+}

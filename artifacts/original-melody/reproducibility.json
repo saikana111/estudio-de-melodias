@@ -1,0 +1,37 @@
+{
+  "python": "3.11.9",
+  "mido": "0.0.0.dev0",
+  "mido_source_revision": "7313549206d95ab8e14d24f91b502fac0264a8e2",
+  "source_sha256": "cd864dda765822107f518d2ffc20756de3889cd28099c9d4515e855e00feec35",
+  "brief_sha256": "2c8df8d7e27d6a6531abc77013a7657c499e091187cc1d77c094bb8642cdad5b",
+  "code_sha256": {
+    "src/musical.py": "889edc6986b9f7ba2525a735fd858540d2d77116f55d7180d68cb8f7266c00e5",
+    "src/ensemble.py": "a4b92c7fe48ef5375b63a322f43d75a831e89364c4e667a3ee9cfbfa2632657e",
+    "scripts/render_preview.py": "0db6f2e0ce6ae7f6543d4097057b0855911752245a6b5dba16187433ad029de2"
+  },
+  "single_track_sha256": "98d4076df0c7fa4c37040da79d37d8613bd4d635ee0b53214f4d8b8332e11273",
+  "ensemble_sha256": "54fe248cfa48d605548d634a187f2b87287353ee338eaf47409d172a7350dfc3",
+  "single_track_matches_delivered_bytes": true,
+  "ensemble_repeat_matches_bytes": true,
+  "scope": "Verified in this environment; cross-version/platform byte equality not promised.",
+  "brief": {
+    "instrumento": 48,
+    "voces": 3,
+    "notas": "largas",
+    "espacio": "medio",
+    "registro": "grave",
+    "disposicion": "abierta",
+    "patron": "sostenido",
+    "tonic": 4,
+    "mode": "dorian",
+    "beat_ticks": null,
+    "downbeat": 0,
+    "numerator": 4,
+    "denominator": 4,
+    "bars_per_chord": 1,
+    "cambios": [],
+    "ritmo_armonico": "libre",
+    "costo_cambio": 1,
+    "repetir_armonia": true
+  }
+}

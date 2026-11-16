@@ -1,0 +1,167 @@
+{
+  "key": {
+    "tonic": 6,
+    "mode": "minor"
+  },
+  "key_candidates": [
+    {
+      "tonic": 6,
+      "mode": "minor",
+      "name": "Gb minor",
+      "score": 0.64065
+    },
+    {
+      "tonic": 6,
+      "mode": "major",
+      "name": "Gb major",
+      "score": 0.49137
+    },
+    {
+      "tonic": 1,
+      "mode": "minor",
+      "name": "Db minor",
+      "score": 0.41644
+    }
+  ],
+  "warnings": [
+    "Key inferred; confirm it. Profile scores are not confidence probabilities.",
+    "Grid uses MIDI PPQ; transcription at 120 BPM does not prove the performed tempo.",
+    "Melody has pitch classes outside the selected scale: [7]; preserved, not corrected."
+  ],
+  "beat_ticks": 220,
+  "repeated_motif": null,
+  "brief": {
+    "instrumento": 0,
+    "voces": 3,
+    "notas": "largas",
+    "espacio": "medio",
+    "registro": "medio",
+    "disposicion": "cerrada",
+    "patron": "bloques",
+    "tonic": null,
+    "mode": "major",
+    "beat_ticks": null,
+    "downbeat": 0,
+    "numerator": 4,
+    "denominator": 4,
+    "bars_per_chord": 1,
+    "cambios": [],
+    "ritmo_armonico": "compases",
+    "costo_cambio": 3.0,
+    "repetir_armonia": true
+  },
+  "source_notes": 13,
+  "generated_notes": 21,
+  "harmony": [
+    {
+      "start_tick": 455,
+      "end_tick": 880,
+      "roman": "i",
+      "pitch_classes": [
+        6,
+        9,
+        1
+      ],
+      "voicing": [
+        49,
+        54,
+        57
+      ]
+    },
+    {
+      "start_tick": 880,
+      "end_tick": 1760,
+      "roman": "v",
+      "pitch_classes": [
+        1,
+        4,
+        8
+      ],
+      "voicing": [
+        49,
+        52,
+        56
+      ]
+    },
+    {
+      "start_tick": 1760,
+      "end_tick": 2640,
+      "roman": "v",
+      "pitch_classes": [
+        1,
+        4,
+        8
+      ],
+      "voicing": [
+        49,
+        52,
+        56
+      ]
+    },
+    {
+      "start_tick": 2640,
+      "end_tick": 3520,
+      "roman": "i",
+      "pitch_classes": [
+        6,
+        9,
+        1
+      ],
+      "voicing": [
+        49,
+        54,
+        57
+      ]
+    },
+    {
+      "start_tick": 3520,
+      "end_tick": 4400,
+      "roman": "iv",
+      "pitch_classes": [
+        11,
+        2,
+        6
+      ],
+      "voicing": [
+        50,
+        54,
+        59
+      ]
+    },
+    {
+      "start_tick": 4400,
+      "end_tick": 5280,
+      "roman": "v",
+      "pitch_classes": [
+        1,
+        4,
+        8
+      ],
+      "voicing": [
+        49,
+        52,
+        56
+      ]
+    },
+    {
+      "start_tick": 5280,
+      "end_tick": 5526,
+      "roman": "i",
+      "pitch_classes": [
+        6,
+        9,
+        1
+      ],
+      "voicing": [
+        49,
+        54,
+        57
+      ]
+    }
+  ],
+  "limitations": [
+    "Diatonic triads plus minor dominant; no modulation or jazz harmony.",
+    "Voice-leading costs are heuristics, not strict counterpoint rules.",
+    "Other accompaniment tracks are not reharmonized or collision-checked."
+  ]
+}

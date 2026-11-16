@@ -1,0 +1,423 @@
+{
+  "brief": {
+    "instrumento": 0,
+    "voces": 3,
+    "notas": "largas",
+    "espacio": "medio",
+    "registro": "grave",
+    "disposicion": "abierta",
+    "patron": "sostenido",
+    "tonic": 4,
+    "mode": "dorian",
+    "beat_ticks": null,
+    "downbeat": 0,
+    "numerator": 4,
+    "denominator": 4,
+    "bars_per_chord": 1,
+    "cambios": [],
+    "ritmo_armonico": "libre",
+    "costo_cambio": 1,
+    "repetir_armonia": true
+  },
+  "ensemble": {
+    "bass_program": 43,
+    "harmony_program": 48,
+    "response_program": 73,
+    "responses": true,
+    "reserved_channels": []
+  },
+  "song": {
+    "sections": [
+      "theme",
+      "variation",
+      "contrast",
+      "return",
+      "coda"
+    ],
+    "contrast_steps": 2,
+    "contrast_rate": 0.85,
+    "gap_ratio": 0.35
+  },
+  "key": {
+    "tonic": 4,
+    "mode": "dorian"
+  },
+  "parts": [
+    {
+      "role": "harmony",
+      "channel": 1,
+      "program": 48
+    },
+    {
+      "role": "bass",
+      "channel": 2,
+      "program": 43
+    },
+    {
+      "role": "response",
+      "channel": 3,
+      "program": 73
+    }
+  ],
+  "sections": [
+    {
+      "index": 0,
+      "kind": "theme",
+      "start_tick": 0,
+      "end_tick": 13796,
+      "description": "Exact original performance and seed accompaniment",
+      "melody_note_count": 13,
+      "harmony": [
+        {
+          "start_tick": 1907,
+          "end_tick": 3814,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            40,
+            47,
+            55
+          ]
+        },
+        {
+          "start_tick": 3814,
+          "end_tick": 7169,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            40,
+            49,
+            57
+          ]
+        },
+        {
+          "start_tick": 7852,
+          "end_tick": 8531,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            40,
+            47,
+            55
+          ]
+        },
+        {
+          "start_tick": 8531,
+          "end_tick": 10137,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            40,
+            47,
+            55
+          ]
+        },
+        {
+          "start_tick": 10137,
+          "end_tick": 13796,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            40,
+            49,
+            57
+          ]
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "kind": "variation",
+      "start_tick": 14034,
+      "end_tick": 25923,
+      "description": "Original contour/rhythm with upper-neighbor ornaments on held tonic notes",
+      "melody_note_count": 17,
+      "harmony": [
+        {
+          "start_tick": 14034,
+          "end_tick": 15941,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            40,
+            47,
+            55
+          ]
+        },
+        {
+          "start_tick": 15941,
+          "end_tick": 19979,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            40,
+            49,
+            57
+          ]
+        },
+        {
+          "start_tick": 19979,
+          "end_tick": 22264,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            40,
+            47,
+            55
+          ]
+        },
+        {
+          "start_tick": 22264,
+          "end_tick": 25923,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            40,
+            49,
+            57
+          ]
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "kind": "contrast",
+      "start_tick": 26161,
+      "end_tick": 35312,
+      "description": "Source motif sequenced by scale degrees and proportionally shortened/lengthened",
+      "melody_note_count": 12,
+      "harmony": [
+        {
+          "start_tick": 26161,
+          "end_tick": 29507,
+          "roman": "III",
+          "pitch_classes": [
+            7,
+            11,
+            2
+          ],
+          "voicing": [
+            50,
+            55,
+            71
+          ]
+        },
+        {
+          "start_tick": 29507,
+          "end_tick": 32460,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            49,
+            52,
+            69
+          ]
+        },
+        {
+          "start_tick": 32460,
+          "end_tick": 35312,
+          "roman": "v",
+          "pitch_classes": [
+            11,
+            2,
+            6
+          ],
+          "voicing": [
+            50,
+            54,
+            71
+          ]
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "kind": "return",
+      "start_tick": 35550,
+      "end_tick": 47439,
+      "description": "Return of original pitches and relative timing, slightly stronger dynamics",
+      "melody_note_count": 13,
+      "harmony": [
+        {
+          "start_tick": 35550,
+          "end_tick": 37457,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            40,
+            47,
+            55
+          ]
+        },
+        {
+          "start_tick": 37457,
+          "end_tick": 40812,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            40,
+            49,
+            57
+          ]
+        },
+        {
+          "start_tick": 41495,
+          "end_tick": 42174,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            40,
+            47,
+            55
+          ]
+        },
+        {
+          "start_tick": 42174,
+          "end_tick": 43780,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            40,
+            47,
+            55
+          ]
+        },
+        {
+          "start_tick": 43780,
+          "end_tick": 47439,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            40,
+            49,
+            57
+          ]
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "kind": "coda",
+      "start_tick": 47677,
+      "end_tick": 51072,
+      "description": "New 5-2-1 melodic close over dominant and tonic",
+      "melody_note_count": 3,
+      "harmony": [
+        {
+          "start_tick": 47677,
+          "end_tick": 49035,
+          "roman": "v",
+          "pitch_classes": [
+            11,
+            2,
+            6
+          ],
+          "voicing": [
+            50,
+            54,
+            71
+          ]
+        },
+        {
+          "start_tick": 49035,
+          "end_tick": 51072,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            52,
+            55,
+            71
+          ]
+        }
+      ]
+    }
+  ],
+  "source_tracks_preserved": true,
+  "duration_seconds": 53.2,
+  "warnings": [],
+  "limitations": [
+    "Deterministic short-form grammar; not a general long-form composer.",
+    "New sections transform note material, not source CC/pitch-bend expression.",
+    "Constant-tempo melody-only input; rubato note timing is preserved in the theme.",
+    "Section transitions are short breaths; richer bridges remain future work."
+  ],
+  "schema_version": 1,
+  "engine_version": "0.2.0",
+  "generation_mode": "song",
+  "provenance": {
+    "source_sha256": "cd864dda765822107f518d2ffc20756de3889cd28099c9d4515e855e00feec35",
+    "output_sha256": "03f61cb25d3137851d4088f51185160118026663f88d18299cd05ba3ab3c6ce1",
+    "python": "3.11.9",
+    "mido_reported_version": "0.0.0.dev0",
+    "implementation_sha256": {
+      "musical.py": "e644e10e756291b3cd318c957399232e56246560c8ef33f11c5f3fdf9fc13655",
+      "ensemble.py": "2e806942cca5e081476d09355ef1eeaa788645fab42ab0cfafad1baa275d6093",
+      "song.py": "a8f6cd06c61f7d1847ebbbf740cae4e20698fa9b8ba175ca4c6ee48198c0edd0",
+      "delivery.py": "95d71a81620a23d23262da36ef03b6be7734e675834d172e1853266be723de07"
+    }
+  }
+}

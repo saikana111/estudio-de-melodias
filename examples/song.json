@@ -1,0 +1,6 @@
+{
+  "sections": ["theme", "variation", "contrast", "return", "coda"],
+  "contrast_steps": 2,
+  "contrast_rate": 0.85,
+  "gap_ratio": 0.35
+}

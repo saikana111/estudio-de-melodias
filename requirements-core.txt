@@ -1,0 +1,2 @@
+# Offline accompaniment and tests; no audio device, cloud account or model required.
+mido==1.3.3
