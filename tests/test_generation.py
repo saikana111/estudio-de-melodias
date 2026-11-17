@@ -64,6 +64,16 @@ class GenerationTests(unittest.TestCase):
         self.assertNotIn('sections', report)
         self.assertEqual(serialize_midi(a), serialize_midi(b))
 
+    def test_inspection_cache_does_not_hide_new_notes_or_song_duration(self):
+        raw = serialize_midi(varied_seed(3)[0])
+        for mode in ('ensemble', 'song'):
+            output, report = generate(raw, {'mode': mode})
+            loaded = mido.MidiFile(file=io.BytesIO(serialize_midi(output)))
+            self.assertAlmostEqual(output.length, loaded.length)
+            preview = preview_notes(output)
+            self.assertEqual(preview, preview_notes(loaded))
+            self.assertTrue({p['channel'] for p in report['parts']}.issubset({n[4] for n in preview}))
+
     def test_invalid_input_and_settings(self):
         raw = serialize_midi(varied_seed(0)[0])
         for data, settings in [(b'not midi', {}), (raw, {'mode': 'unknown'}),

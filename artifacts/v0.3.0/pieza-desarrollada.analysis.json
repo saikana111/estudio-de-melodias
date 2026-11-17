@@ -1,0 +1,442 @@
+{
+  "brief": {
+    "instrumento": 0,
+    "voces": 3,
+    "notas": "largas",
+    "espacio": "medio",
+    "registro": "medio",
+    "disposicion": "abierta",
+    "patron": "sostenido",
+    "tonic": 4,
+    "mode": "dorian",
+    "beat_ticks": null,
+    "downbeat": 0,
+    "numerator": 4,
+    "denominator": 4,
+    "bars_per_chord": 1,
+    "cambios": [],
+    "ritmo_armonico": "libre",
+    "costo_cambio": 1,
+    "repetir_armonia": true,
+    "intensidad": 64,
+    "curva_dinamica": "arco",
+    "articulacion": "legato",
+    "actividad": 1,
+    "perfil_armonico": "resolver",
+    "balance_bajo": -15,
+    "balance_respuesta": -12
+  },
+  "ensemble": {
+    "bass_program": 43,
+    "harmony_program": 48,
+    "response_program": 73,
+    "responses": true,
+    "reserved_channels": []
+  },
+  "song": {
+    "sections": [
+      "theme",
+      "variation",
+      "contrast",
+      "return",
+      "coda"
+    ],
+    "contrast_steps": 2,
+    "contrast_rate": 0.85,
+    "gap_ratio": 0.35,
+    "expresion_secciones": {
+      "variation": {
+        "intensidad": 58,
+        "curva_dinamica": "crescendo"
+      },
+      "contrast": {
+        "intensidad": 76,
+        "actividad": 2,
+        "perfil_armonico": "creciente"
+      },
+      "return": {
+        "intensidad": 68,
+        "curva_dinamica": "arco",
+        "perfil_armonico": "resolver"
+      },
+      "coda": {
+        "intensidad": 56,
+        "curva_dinamica": "diminuendo",
+        "actividad": 1,
+        "perfil_armonico": "automatico"
+      }
+    }
+  },
+  "key": {
+    "tonic": 4,
+    "mode": "dorian"
+  },
+  "parts": [
+    {
+      "role": "harmony",
+      "channel": 1,
+      "program": 48
+    },
+    {
+      "role": "bass",
+      "channel": 2,
+      "program": 43
+    },
+    {
+      "role": "response",
+      "channel": 3,
+      "program": 73
+    }
+  ],
+  "sections": [
+    {
+      "index": 0,
+      "kind": "theme",
+      "start_tick": 0,
+      "end_tick": 13796,
+      "description": "Exact original performance and seed accompaniment",
+      "melody_note_count": 13,
+      "expression": {
+        "intensidad": 64,
+        "curva_dinamica": "arco",
+        "articulacion": "legato",
+        "actividad": 1,
+        "perfil_armonico": "resolver",
+        "balance_bajo": -15,
+        "balance_respuesta": -12
+      },
+      "harmony": [
+        {
+          "start_tick": 1907,
+          "end_tick": 3814,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            52,
+            55,
+            71
+          ],
+          "functional_tension": 0.0,
+          "target_tension": 0.6898498612162502
+        },
+        {
+          "start_tick": 3814,
+          "end_tick": 13796,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            49,
+            52,
+            69
+          ],
+          "functional_tension": 0.4,
+          "target_tension": 0.3148498612162503
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "kind": "variation",
+      "start_tick": 14034,
+      "end_tick": 25923,
+      "description": "Original contour/rhythm with upper-neighbor ornaments on held tonic notes",
+      "melody_note_count": 17,
+      "expression": {
+        "intensidad": 58,
+        "curva_dinamica": "crescendo",
+        "articulacion": "legato",
+        "actividad": 1,
+        "perfil_armonico": "resolver",
+        "balance_bajo": -15,
+        "balance_respuesta": -12
+      },
+      "harmony": [
+        {
+          "start_tick": 14034,
+          "end_tick": 15941,
+          "roman": "III",
+          "pitch_classes": [
+            7,
+            11,
+            2
+          ],
+          "voicing": [
+            50,
+            55,
+            71
+          ],
+          "functional_tension": 0.3,
+          "target_tension": 0.6898498612162502
+        },
+        {
+          "start_tick": 15941,
+          "end_tick": 19979,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            49,
+            52,
+            69
+          ],
+          "functional_tension": 0.4,
+          "target_tension": 0.5023340903356044
+        },
+        {
+          "start_tick": 19979,
+          "end_tick": 22264,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            52,
+            55,
+            71
+          ],
+          "functional_tension": 0.0,
+          "target_tension": 0.30289553368660105
+        },
+        {
+          "start_tick": 22264,
+          "end_tick": 25923,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            49,
+            52,
+            69
+          ],
+          "functional_tension": 0.4,
+          "target_tension": 0.11541130456724707
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "kind": "contrast",
+      "start_tick": 26161,
+      "end_tick": 35312,
+      "description": "Source motif sequenced by scale degrees and proportionally shortened/lengthened",
+      "melody_note_count": 12,
+      "expression": {
+        "intensidad": 76,
+        "curva_dinamica": "arco",
+        "articulacion": "legato",
+        "actividad": 2,
+        "perfil_armonico": "creciente",
+        "balance_bajo": -15,
+        "balance_respuesta": -12
+      },
+      "harmony": [
+        {
+          "start_tick": 26161,
+          "end_tick": 29507,
+          "roman": "III",
+          "pitch_classes": [
+            7,
+            11,
+            2
+          ],
+          "voicing": [
+            50,
+            55,
+            71
+          ],
+          "functional_tension": 0.3,
+          "target_tension": 0.26883400721232653
+        },
+        {
+          "start_tick": 29507,
+          "end_tick": 32460,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            49,
+            52,
+            69
+          ],
+          "functional_tension": 0.4,
+          "target_tension": 0.4925445306523877
+        },
+        {
+          "start_tick": 32460,
+          "end_tick": 35312,
+          "roman": "v",
+          "pitch_classes": [
+            11,
+            2,
+            6
+          ],
+          "voicing": [
+            50,
+            54,
+            71
+          ],
+          "functional_tension": 0.8,
+          "target_tension": 0.6987105234400612
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "kind": "return",
+      "start_tick": 35550,
+      "end_tick": 47439,
+      "description": "Return of original pitches and relative timing, slightly stronger dynamics",
+      "melody_note_count": 13,
+      "expression": {
+        "intensidad": 68,
+        "curva_dinamica": "arco",
+        "articulacion": "legato",
+        "actividad": 1,
+        "perfil_armonico": "resolver",
+        "balance_bajo": -15,
+        "balance_respuesta": -12
+      },
+      "harmony": [
+        {
+          "start_tick": 35550,
+          "end_tick": 37457,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            52,
+            55,
+            71
+          ],
+          "functional_tension": 0.0,
+          "target_tension": 0.6898498612162502
+        },
+        {
+          "start_tick": 37457,
+          "end_tick": 47439,
+          "roman": "IV",
+          "pitch_classes": [
+            9,
+            1,
+            4
+          ],
+          "voicing": [
+            49,
+            52,
+            69
+          ],
+          "functional_tension": 0.4,
+          "target_tension": 0.3148498612162503
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "kind": "coda",
+      "start_tick": 47677,
+      "end_tick": 51072,
+      "description": "New 5-2-1 melodic close over dominant and tonic",
+      "melody_note_count": 3,
+      "expression": {
+        "intensidad": 56,
+        "curva_dinamica": "diminuendo",
+        "articulacion": "legato",
+        "actividad": 1,
+        "perfil_armonico": "automatico",
+        "balance_bajo": -15,
+        "balance_respuesta": -12
+      },
+      "harmony": [
+        {
+          "start_tick": 47677,
+          "end_tick": 49035,
+          "roman": "v",
+          "pitch_classes": [
+            11,
+            2,
+            6
+          ],
+          "voicing": [
+            50,
+            54,
+            71
+          ],
+          "functional_tension": 0.8,
+          "target_tension": null
+        },
+        {
+          "start_tick": 49035,
+          "end_tick": 51072,
+          "roman": "i",
+          "pitch_classes": [
+            4,
+            7,
+            11
+          ],
+          "voicing": [
+            52,
+            55,
+            71
+          ],
+          "functional_tension": 0.0,
+          "target_tension": null
+        }
+      ]
+    }
+  ],
+  "source_tracks_preserved": true,
+  "duration_seconds": 53.2,
+  "warnings": [
+    "El perfil armónico evolutivo permite rearmonizar motivos repetidos."
+  ],
+  "limitations": [
+    "Deterministic short-form grammar; not a general long-form composer.",
+    "New sections transform note material, not source CC/pitch-bend expression.",
+    "Constant-tempo melody-only input; rubato note timing is preserved in the theme.",
+    "Section transitions are short breaths; richer bridges remain future work."
+  ],
+  "audio": {
+    "font": "GeneralUser-GS.sf2",
+    "font_sha256": "9575028c7a1f589f5770fccc8cff2734566af40cd26ed836944e9a5152688cfe",
+    "renderer_executable_sha256": "0da1d54ca018c5d2089d1d2fe1ad97c99f88128ac099f2675a8368e64af14253",
+    "sample_rate": 22050,
+    "gain": 0.35
+  },
+  "schema_version": 1,
+  "engine_version": "0.3.0",
+  "generation_mode": "song",
+  "provenance": {
+    "source_sha256": "cd864dda765822107f518d2ffc20756de3889cd28099c9d4515e855e00feec35",
+    "output_sha256": "2aec666ab96e8c33688d565cf3347dc6a1394b407e0d710c221904efb1a84e2f",
+    "python": "3.11.9",
+    "mido_reported_version": "0.0.0.dev0",
+    "implementation_sha256": {
+      "musical.py": "ac859745491b6290d843adcd4a534355a2467281cd47eb16d0c32db5e11bfa06",
+      "ensemble.py": "b3098c1b271f75e5a504bbcc04797916d40507a23d245b4bb5c373fb77f8ec35",
+      "song.py": "49b0e95d5f9cbdddc082833084b7013426fa64ecc99219e01a4b68e8a88c98ed",
+      "delivery.py": "4a67aaee5710a53808f9628ecac4ddf59eeacca86cd35dfa2e5ccae4b4e96d06"
+    }
+  }
+}
