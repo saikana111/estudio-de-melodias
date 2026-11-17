@@ -1,0 +1,17 @@
+{
+  "tonic": 4,
+  "mode": "dorian",
+  "voces": 3,
+  "registro": "medio",
+  "disposicion": "abierta",
+  "patron": "sostenido",
+  "ritmo_armonico": "libre",
+  "costo_cambio": 1,
+  "intensidad": 64,
+  "curva_dinamica": "arco",
+  "articulacion": "legato",
+  "actividad": 1,
+  "perfil_armonico": "resolver",
+  "balance_bajo": -15,
+  "balance_respuesta": -12
+}

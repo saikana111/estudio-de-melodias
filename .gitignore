@@ -7,6 +7,8 @@ __pycache__/
 
 # SoundFonts (muy pesados)
 *.sf2
+.tools/
+.cache/
 
 # IDEs
 .vscode/

@@ -10,7 +10,7 @@ import statistics
 
 import mido
 from ensemble import Ensemble, arrange
-from musical import Brief, Note, SCALES, key_candidates, read_notes, repeated_motif, track_from_notes
+from musical import Brief, Note, SCALES, key_candidates, read_notes, repeated_motif, track_from_notes, add_controls
 
 
 @dataclass(frozen=True)
@@ -19,8 +19,19 @@ class Song:
     contrast_steps: int = 2
     contrast_rate: float = 0.85
     gap_ratio: float = 0.35
+    # Optional explicit section overrides; absent means the original song behavior.
+    expresion_secciones: dict | None = None
 
     def __post_init__(self):
+        allowed = {"intensidad", "curva_dinamica", "articulacion", "actividad", "perfil_armonico",
+                   "balance_bajo", "balance_respuesta"}
+        if self.expresion_secciones is not None:
+            if not isinstance(self.expresion_secciones, dict):
+                raise ValueError("expresion_secciones debe ser un objeto")
+            for kind, values in self.expresion_secciones.items():
+                if kind not in ("variation", "contrast", "return", "coda") or not isinstance(values, dict) or set(values)-allowed:
+                    raise ValueError("Ajustes de expresión por sección no válidos; el tema conserva el ensamble inicial")
+                Brief(**values)
         if not isinstance(self.sections, (list, tuple)) or not 2 <= len(self.sections) <= 8:
             raise ValueError("Song requires 2..8 sections")
         if self.sections[0] != "theme" or self.sections[-1] != "coda":
@@ -149,6 +160,7 @@ def develop(source, brief=None, melody_channel=0, ensemble=None, song=None):
     programs = {"harmony": ensemble.harmony_program, "bass": ensemble.bass_program,
                 "response": ensemble.response_program}
     part_notes = {role: [] for role in role_channels}
+    part_controls = {role: [] for role in role_channels}
     melody_development = []
     sections = []
     end = max(n.end for n in notes)
@@ -180,6 +192,8 @@ def develop(source, brief=None, melody_channel=0, ensemble=None, song=None):
                 local_brief = replace(resolved, cambios=changes, patron="sostenido", registro="medio")
                 local_ensemble = replace(ensemble, responses=False)
                 description = "New 5-2-1 melodic close over dominant and tonic"
+            overrides = (song.expresion_secciones or {}).get(kind, {})
+            local_brief = replace(local_brief, **overrides)
             local = mido.MidiFile(type=1, ticks_per_beat=source.ticks_per_beat)
             local.tracks.append(track_from_notes(local_notes, program, melody_channel, kind))
             arranged, local_report = arrange(local, local_brief, melody_channel, local_ensemble)
@@ -188,12 +202,20 @@ def develop(source, brief=None, melody_channel=0, ensemble=None, song=None):
                                                channel=melody_channel) for n in local_notes)
         for part in local_report["parts"]:
             role = part["role"]
+            for track in arranged.tracks:
+                tick = 0
+                for msg in track:
+                    tick += msg.time
+                    if msg.type == 'control_change' and msg.channel == part['channel']:
+                        part_controls[role].append((tick+offset, msg.copy(channel=role_channels[role], time=0)))
             part_notes[role].extend(replace(n, start=n.start+offset, end=n.end+offset,
                                             channel=role_channels[role])
                                     for n in read_notes(arranged, part["channel"]))
         sections.append({"index": number, "kind": kind, "start_tick": offset,
                          "end_tick": offset+local_end, "description": description,
                          "melody_note_count": len(local_notes),
+                         "expression": {key: local_report["brief"][key] for key in
+                             ("intensidad", "curva_dinamica", "articulacion", "actividad", "perfil_armonico", "balance_bajo", "balance_respuesta")},
                          "harmony": [{**h, "start_tick": h["start_tick"]+offset,
                                       "end_tick": h["end_tick"]+offset} for h in local_report["harmony"]]})
         cursor = offset+local_end
@@ -204,7 +226,7 @@ def develop(source, brief=None, melody_channel=0, ensemble=None, song=None):
     for role, generated in part_notes.items():
         if generated:
             channel = role_channels[role]
-            result.tracks.append(track_from_notes(generated, programs[role], channel, role.capitalize()))
+            result.tracks.append(add_controls(track_from_notes(generated, programs[role], channel, role.capitalize()), part_controls[role]))
             parts.append({"role": role, "channel": channel, "program": programs[role]})
     markers = mido.MidiTrack([mido.MetaMessage("track_name", name="Song form")])
     previous = 0
@@ -213,6 +235,7 @@ def develop(source, brief=None, melody_channel=0, ensemble=None, song=None):
                                         time=section["start_tick"]-previous))
         previous = section["start_tick"]
     result.tracks.append(markers)
+    del result.merged_track  # Deepcopy can retain the source's cached merged timeline.
     warnings = list(first_report["warnings"])
     if brief.tonic is None:
         warnings.append("Song key inferred once from the seed; confirm before accepting the development.")

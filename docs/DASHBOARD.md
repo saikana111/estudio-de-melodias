@@ -1,5 +1,9 @@
 # Local Melody Studio
 
+Version 0.3.0: [expression controls and SoundFont playback](EXPRESION_Y_SONIDO.md)
+supersede the simple-synth-only description below. SoundFont is now the default
+listening mode, with the simple synth available explicitly for structural comparison.
+
 The dashboard is presented in Spanish (including controls, status, key suggestions
 and musical warnings). Configuration identifiers and technical JSON remain stable.
 See [integration notes in Spanish](INTEGRACION.md) for the optional dashboard and

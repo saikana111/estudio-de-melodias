@@ -77,10 +77,20 @@ class Brief:
     ritmo_armonico: str = "compases"
     costo_cambio: float = 3.0
     repetir_armonia: bool = True
+    # These are musical controls, not measurements of a listener's emotions.
+    intensidad: int = 68
+    curva_dinamica: str = "estable"
+    articulacion: str = "original"
+    actividad: int = 1
+    perfil_armonico: str = "automatico"
+    balance_bajo: int = -13
+    balance_respuesta: int = -20
 
     def __post_init__(self):
         for name, low, high in (("instrumento", 0, 127), ("voces", 1, 4),
-                                ("downbeat", 0, 2**31-1), ("bars_per_chord", 1, 4)):
+                                ("downbeat", 0, 2**31-1), ("bars_per_chord", 1, 4),
+                                ("intensidad", 24, 110), ("actividad", 1, 4),
+                                ("balance_bajo", -36, 12), ("balance_respuesta", -36, 12)):
             value = getattr(self, name)
             if type(value) is not int or not low <= value <= high:
                 raise ValueError(f"Invalid {name}: {value}")
@@ -92,6 +102,9 @@ class Brief:
             "patron": ("bloques", "arpegio", "sostenido"),
             "mode": ("major", "minor", "dorian", "mixolydian"),
             "ritmo_armonico": ("compases", "libre"),
+            "curva_dinamica": ("estable", "crescendo", "diminuendo", "arco"),
+            "articulacion": ("original", "legato", "normal", "staccato"),
+            "perfil_armonico": ("automatico", "reposado", "creciente", "resolver", "arco"),
         }.items():
             if getattr(self, name) not in choices:
                 raise ValueError(f"Invalid {name}: {getattr(self, name)}")
@@ -193,7 +206,26 @@ def _fit(notes, chord, start, end, beat):
     return 4 * cost / total if total else 0.0
 
 
-def _free_harmony(notes, chords, change_cost):
+def harmonic_tension(chord):
+    """Functional heuristic in 0..1, not a psychoacoustic or emotional score."""
+    return (0.0, 0.45, 0.30, 0.40, 0.80, 0.25, 1.0)[chord.degree]
+
+
+def tension_target(profile, position):
+    x = max(0.0, min(1.0, position))
+    return {"reposado": 0.1, "creciente": 0.15+0.65*x,
+            "resolver": 0.75*(1-x), "arco": 0.1+0.7*(1-abs(2*x-1))}.get(profile)
+
+
+def _expression_cost(chord, start, end, notes, brief):
+    if brief is None or brief.perfil_armonico == "automatico":
+        return 0.0
+    first, last = notes[0].start, max(n.end for n in notes)
+    target = tension_target(brief.perfil_armonico, ((start+end)/2-first)/max(1, last-first))
+    return 2.0*abs(harmonic_tension(chord)-target)
+
+
+def _free_harmony(notes, chords, change_cost, brief=None):
     """Semi-Markov search: jointly select chord identities and change locations.
 
     Candidates are real melody onsets, not guessed beats. A segment may span up
@@ -212,6 +244,9 @@ def _free_harmony(notes, chords, change_cost):
                 start, end = boundaries[start_idx], boundaries[end_idx]
                 occupied = sum(max(0, min(end, n.end)-max(start, n.start)) for n in notes) / unit
                 fit = _fit(notes, chord, start, end, unit) * occupied / 4
+                fit += _expression_cost(chord, start, end, notes, brief)*occupied/4
+                if brief and brief.perfil_armonico != "automatico" and end_idx == len(boundaries)-1:
+                    fit += 2*abs(harmonic_tension(chord)-tension_target(brief.perfil_armonico, 1))
                 # Diminished triads remain available but need positive evidence.
                 fit += 0.3 * occupied if "°" in chord.label else 0
                 if start_idx == 0:
@@ -257,24 +292,24 @@ def repeated_motif(notes):
     return None
 
 
-def _repeat_harmony(notes, chords, cost, motif):
+def _repeat_harmony(notes, chords, cost, motif, brief=None):
     """Reuse chord decisions at matching note positions; retain performance time."""
     length, starts = motif["length"], motif["starts"]
     canonical = notes[starts[0]:starts[0]+length]
-    template = _free_harmony(canonical, chords, cost)
+    template = _free_harmony(canonical, chords, cost, brief)
     indices = {n.start: i for i, n in enumerate(canonical)}
     changes = [(indices[start], chord) for start, _, chord in template]
     result, cursor = [], 0
     for occurrence in starts:
         if cursor < occurrence:
-            result.extend(_free_harmony(notes[cursor:occurrence], chords, cost))
+            result.extend(_free_harmony(notes[cursor:occurrence], chords, cost, brief))
         phrase = notes[occurrence:occurrence+length]
         for i, (index, chord) in enumerate(changes):
             stop = phrase[changes[i+1][0]].start if i+1 < len(changes) else max(n.end for n in phrase)
             result.append((phrase[index].start, stop, chord))
         cursor = occurrence+length
     if cursor < len(notes):
-        result.extend(_free_harmony(notes[cursor:], chords, cost))
+        result.extend(_free_harmony(notes[cursor:], chords, cost, brief))
     # Adjacent source notes can overlap slightly after transcription. Harmonic
     # segments must not overlap even though the source melody is preserved.
     return [(a, min(b, result[i+1][0]) if i+1 < len(result) else b, c)
@@ -302,8 +337,9 @@ def plan_harmony(notes, brief, ppq):
         next_costs, next_paths = {}, {}
         for j, chord in enumerate(chords):
             local = _fit(notes, chord, start, stop, beat)
+            local += _expression_cost(chord, start, stop, notes, brief)
             # Prefer a settled final tonic, but do not force it against the melody.
-            if idx == len(boundaries)-2 and chord.degree != 0:
+            if idx == len(boundaries)-2 and chord.degree != 0 and brief.perfil_armonico == "automatico":
                 local += 0.65
             if idx == 0:
                 next_costs[j] = local + (0 if chord.degree == 0 else 0.3)
@@ -317,10 +353,10 @@ def plan_harmony(notes, brief, ppq):
     plan = [(a, b, chords[j]) for a, b, j in zip(boundaries, boundaries[1:], path)]
     motif = None
     if brief.ritmo_armonico == "libre" and not brief.cambios:
-        plan = _free_harmony(notes, chords, brief.costo_cambio)
-        motif = repeated_motif(notes) if brief.repetir_armonia else None
+        plan = _free_harmony(notes, chords, brief.costo_cambio, brief)
+        motif = repeated_motif(notes) if brief.repetir_armonia and brief.perfil_armonico in ("automatico", "reposado") else None
         if motif:
-            plan = _repeat_harmony(notes, chords, brief.costo_cambio, motif)
+            plan = _repeat_harmony(notes, chords, brief.costo_cambio, motif, brief)
     if brief.cambios:
         by_label = {c.label: c for c in chords}
         if brief.cambios[0][0] < first or brief.cambios[-1][0] >= end:
@@ -330,6 +366,12 @@ def plan_harmony(notes, brief, ppq):
         stops = [tick for tick, _ in brief.cambios[1:]] + [end]
         plan = [(tick, stop, by_label[label]) for (tick, label), stop in zip(brief.cambios, stops)]
     warnings = []
+    if brief.perfil_armonico not in ("automatico", "reposado") and brief.repetir_armonia:
+        warnings.append("El perfil armónico evolutivo permite rearmonizar motivos repetidos.")
+    if brief.cambios and brief.perfil_armonico != "automatico":
+        warnings.append("Los acordes explícitos tienen prioridad sobre el perfil armónico.")
+    if brief.actividad > 1 and brief.ritmo_armonico == "libre":
+        warnings.append("La actividad subdivide los segmentos armónicos; no estima un pulso del tarareo.")
     if brief.tonic is None:
         warnings.append("Key inferred; confirm it. Profile scores are not confidence probabilities.")
     if brief.beat_ticks is None:
@@ -366,6 +408,53 @@ def _voicings(chord, brief):
     return result
 
 
+def expressive_velocity(brief, tick, start, end, role="harmony", accent=0):
+    x = max(0.0, min(1.0, (tick-start)/max(1, end-start)))
+    delta = {"estable": 0, "crescendo": -12+24*x,
+             "diminuendo": 12-24*x, "arco": -10+24*(1-abs(2*x-1))}[brief.curva_dinamica]
+    balance = {"harmony": 0, "bass": brief.balance_bajo, "response": brief.balance_respuesta}[role]
+    return max(1, min(127, round(brief.intensidad+balance+delta+accent)))
+
+
+def articulated_end(start, end, articulation):
+    fraction = {"original": 1.0, "legato": 1.0, "normal": 0.8, "staccato": 0.45}[articulation]
+    return min(end, start+max(1, round((end-start)*fraction)))
+
+
+def expression_controls(brief, start, end, channel):
+    """CC11 changes sounding sustained notes as well as subsequent attacks."""
+    if brief.curva_dinamica == "estable":
+        return []
+    controls = []
+    previous = None
+    for i in range(65):
+        x = i/64
+        value = round({"crescendo": 76+36*x, "diminuendo": 112-36*x,
+                       "arco": 76+36*(1-abs(2*x-1))}[brief.curva_dinamica])
+        tick = start+round((end-start)*x)
+        if value != previous:
+            controls.append((tick, mido.Message('control_change', channel=channel, control=11, value=value)))
+        previous = value
+    controls.append((end, mido.Message('control_change', channel=channel, control=11, value=127)))
+    return controls
+
+
+def add_controls(track, controls):
+    if not controls:
+        return track
+    events, tick = [], 0
+    for message in track:
+        tick += message.time
+        if message.type != 'end_of_track':
+            events.append((tick, 1, message.copy(time=0)))
+    events.extend((tick, 0, message.copy(time=0)) for tick, message in controls)
+    result, previous = mido.MidiTrack(), 0
+    for tick, _, message in sorted(events, key=lambda e: (e[0], e[1])):
+        result.append(message.copy(time=tick-previous))
+        previous = tick
+    return result
+
+
 def realize(plan, notes, brief, beat, voicing_filter=None):
     """Global DP voice leading, then a repeatable rhythm; no random note sampling."""
     options = [_voicings(chord, brief) for _, _, chord in plan]
@@ -398,12 +487,17 @@ def realize(plan, notes, brief, beat, voicing_filter=None):
     unit = {"cortas": 0.5, "medias": 1, "largas": 2}[brief.notas] * beat
     spacing = {"poco": 1, "medio": 2, "mucho": 4}[brief.espacio]
     for (start, end, _), voicing in zip(plan, voicings):
-        step = end-start if brief.patron == "sostenido" else max(1, round(unit * spacing))
+        step = max(1, round((end-start)/brief.actividad)) if brief.patron == "sostenido" else max(1, round(unit * spacing/brief.actividad))
         for index, tick in enumerate(range(start, end, step)):
             pitches = (voicing[index % len(voicing)],) if brief.patron == "arpegio" else voicing
-            stop = end if brief.patron == "sostenido" else min(end, tick+max(1, round(unit*0.9)))
+            # Never overlap a repeated note with itself when density increases.
+            slot_end = min(end, tick+step)
+            stop = slot_end if brief.patron == "sostenido" else min(slot_end, tick+max(1, round(unit*0.9)))
+            if brief.articulacion != "original":
+                stop = articulated_end(tick, slot_end, brief.articulacion)
             for pitch in pitches:
-                result.append(Note(tick, stop, pitch, 68 if index == 0 else 58, 2))
+                velocity = expressive_velocity(brief, tick, plan[0][0], plan[-1][1], accent=0 if index == 0 else -10)
+                result.append(Note(tick, stop, pitch, velocity, 2))
     return result, voicings
 
 
@@ -436,12 +530,16 @@ def accompany(midi, brief=None, melody_channel=0, output_channel=2, voicing_filt
     report["source_notes"] = len(notes)
     report["generated_notes"] = len(generated)
     report["harmony"] = [{"start_tick": a, "end_tick": b, "roman": chord.label,
-                           "pitch_classes": chord.pcs, "voicing": v}
+                           "pitch_classes": chord.pcs, "voicing": v,
+                           "functional_tension": harmonic_tension(chord),
+                           "target_tension": tension_target(brief.perfil_armonico,
+                               ((a+b)/2-plan[0][0])/max(1, plan[-1][1]-plan[0][0]))}
                           for (a, b, chord), v in zip(plan, voicings)]
     report["limitations"] = ["Diatonic triads plus minor dominant; no modulation or jazz harmony.",
                               "Voice-leading costs are heuristics, not strict counterpoint rules.",
                               "Other accompaniment tracks are not reharmonized or collision-checked."]
-    return track_from_notes(generated, brief.instrumento, output_channel), report
+    track = track_from_notes(generated, brief.instrumento, output_channel)
+    return add_controls(track, expression_controls(brief, plan[0][0], plan[-1][1], output_channel)), report
 
 
 def summarize(midi, channel=None, limit=256):

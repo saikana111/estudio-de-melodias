@@ -7,7 +7,7 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass, replace
 import statistics
 
-from musical import Brief, Note, accompany, read_notes, track_from_notes
+from musical import Brief, Note, accompany, read_notes, track_from_notes, expressive_velocity, articulated_end, expression_controls, add_controls
 
 
 @dataclass(frozen=True)
@@ -29,7 +29,7 @@ class Ensemble:
             raise ValueError("reserved_channels must contain channel integers 0..15")
 
 
-def _bass(harmony, channel):
+def _bass(harmony, channel, brief):
     """Root bass, separated from the lowest string voice, minimizing octave leaps."""
     notes, previous = [], 36
     for chord in harmony:
@@ -39,12 +39,14 @@ def _bass(harmony, channel):
         if not options:
             raise ValueError("No room below the harmony for bass; choose a higher harmony register")
         pitch = min(options, key=lambda p: (abs(p-previous), abs(p-36), p))
-        notes.append(Note(chord["start_tick"], chord["end_tick"], pitch, 55, channel))
+        start, end = chord["start_tick"], chord["end_tick"]
+        velocity = expressive_velocity(brief, start, harmony[0]["start_tick"], harmony[-1]["end_tick"], "bass")
+        notes.append(Note(start, articulated_end(start, end, brief.articulacion), pitch, velocity, channel))
         previous = pitch
     return notes
 
 
-def _responses(melody, harmony, channel):
+def _responses(melody, harmony, channel, brief):
     """Project a two-note melodic contour onto the preceding chord during rests.
 
     Timing subdivides an observed rest, not an invented pulse. No response before
@@ -72,7 +74,8 @@ def _responses(melody, harmony, channel):
                     start = sounding_until+margin+j*unit
                     end = min(note.start-margin, start+max(1, round(unit*0.8)))
                     if start < end:
-                        result.append(Note(start, end, pitch, 48, channel))
+                        velocity = expressive_velocity(brief, start, melody[0].start, max(n.end for n in melody), "response")
+                        result.append(Note(start, articulated_end(start, end, brief.articulacion), pitch, velocity, channel))
         sounding_until = max(sounding_until, note.end)
     return result
 
@@ -96,19 +99,25 @@ def arrange(midi, brief=None, melody_channel=0, ensemble=None):
                                           p % 12 == chord.root and p+5 <= min(v) for p in range(28, 48)))
     harmony_track.name = "Strings - shared harmony" if ensemble.harmony_program == 48 else "Harmony - shared chords"
     melody = read_notes(midi, melody_channel)
-    bass_notes = _bass(report["harmony"], bass_channel)
+    bass_notes = _bass(report["harmony"], bass_channel, brief)
     tracks = [harmony_track, track_from_notes(bass_notes, ensemble.bass_program, bass_channel, "Bass - harmonic roots")]
     parts = [{"role": "harmony", "channel": harmony_channel, "program": ensemble.harmony_program},
              {"role": "bass", "channel": bass_channel, "program": ensemble.bass_program}]
     if ensemble.responses:
         response_channel = free[2]
-        response_notes = _responses(melody, report["harmony"], response_channel)
+        response_notes = _responses(melody, report["harmony"], response_channel, brief)
         if response_notes:
             tracks.append(track_from_notes(response_notes, ensemble.response_program, response_channel, "Flute - answers in rests"))
             parts.append({"role": "response", "channel": response_channel, "program": ensemble.response_program})
+    # Harmony already carries its envelope from accompany(); bass and responses
+    # share the same time curve without touching source controller messages.
+    for i, part in enumerate(parts[1:], 1):
+        tracks[i] = add_controls(tracks[i], expression_controls(brief, report['harmony'][0]['start_tick'],
+                                  report['harmony'][-1]['end_tick'], part['channel']))
     result = deepcopy(midi)
     result.type = 1
     result.tracks.extend(tracks)
+    del result.merged_track  # Mido may have cached the source timeline during inspection.
     report["ensemble"] = asdict(ensemble)
     report["parts"] = parts
     report["source_tracks_preserved"] = result.tracks[:len(midi.tracks)] == midi.tracks

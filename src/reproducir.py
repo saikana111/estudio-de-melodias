@@ -1,10 +1,14 @@
 import os
+from pathlib import Path
 
 import fluidsynth
 import mido
 import pygame
 
-RUTA_GM = os.path.join("assets", "soundfonts", "FluidR3_GM.sf2")      # General MIDI (128 instrumentos)
+_SOUNDFONTS = Path(__file__).resolve().parents[1]/"assets/soundfonts"
+RUTA_GM = os.environ.get("SOUNDFONT_PATH") or str(next(
+    (p for p in (_SOUNDFONTS/"FluidR3_GM.sf2", _SOUNDFONTS/"GeneralUser-GS.sf2") if p.is_file()),
+    _SOUNDFONTS/"FluidR3_GM.sf2"))
 RUTA_PIANO = os.path.join("assets", "soundfonts", "piano.sf2")        # piano con capas de velocity
 
 # Canal del teclado del ESP32. Es propio para que su instrumento no pise al de la melodía (canal 0).
@@ -17,7 +21,7 @@ volumen_general = 127  # también lo usa gem.py para la voz de la IA
 
 fs = fluidsynth.Synth()
 fs.setting("synth.gain", 1.0)
-fs.start(driver="dsound")
+fs.start(driver=os.environ.get("FLUIDSYNTH_DRIVER", "dsound"))
 sfid = fs.sfload(RUTA_GM)
 
 # El SoundFont General MIDI tiene pocas grabaciones por instrumento: una nota suave suena

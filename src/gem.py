@@ -382,6 +382,13 @@ class Arreglo(BaseModel):
     registro: Literal["grave", "medio", "agudo"]
     disposicion: Literal["cerrada", "abierta"] = "cerrada"
     patron: Literal["bloques", "arpegio", "sostenido"] = "bloques"
+    intensidad: int = Field(default=68, ge=24, le=110)
+    curva_dinamica: Literal["estable", "crescendo", "diminuendo", "arco"] = "estable"
+    articulacion: Literal["original", "legato", "normal", "staccato"] = "original"
+    actividad: int = Field(default=1, ge=1, le=4)
+    perfil_armonico: Literal["automatico", "reposado", "creciente", "resolver", "arco"] = "automatico"
+    balance_bajo: int = Field(default=-13, ge=-36, le=12)
+    balance_respuesta: int = Field(default=-20, ge=-36, le=12)
 
 
 ultimo_arreglo = None   # el último que se pidió, para que "más grave" o "menos notas" parta de ahí
@@ -401,6 +408,14 @@ def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad):
         "al de la melodía para que no se pisen.\n"
         "- disposicion: cerrada o abierta (separación de las voces).\n"
         "- patron: bloques, arpegio o sostenido. Sostenido evita imponer golpes a un canto libre.\n"
+        "- intensidad: velocidad MIDI base de la armonía, 24-110; 68 es moderado. No es volumen en dB.\n"
+        "- curva_dinamica: estable, crescendo, diminuendo o arco (crece y luego baja).\n"
+        "- articulacion: original, legato, normal o staccato. Solo modifica acompañamiento.\n"
+        "- actividad: 1-4; subdivide el patrón armónico sin acelerar la melodía.\n"
+        "- perfil_armonico: automatico, reposado, creciente, resolver o arco. Es una preferencia tonal, no una emoción garantizada.\n"
+        "- balance_bajo y balance_respuesta: diferencia de velocidad respecto de intensidad, -36 a 12; valores normales -13 y -20.\n"
+        "Combiná los controles según la intención y las referencias del usuario; no impongas menor=triste. "
+        "No prometas modulación, síncopa o técnicas instrumentales no implementadas. Conservá la melodía original.\n"
         f"Sugerencia aceptada: {idea_aceptada}\n"
         f"Tonalidad de la melodía: {tonalidad}\n"
         f"Melodía: {melodia_txt}"

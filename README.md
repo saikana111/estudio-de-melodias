@@ -10,6 +10,16 @@ the primary output; WAV files are optional listening previews.
 
 ## Local dashboard (recommended)
 
+Version 0.3.0 adds expressive dynamics/articulation/activity, harmonic trajectories,
+section overrides, and real General MIDI playback with FluidSynth + SoundFont.
+Run `python scripts/setup_audio.py` once to install the pinned local audio assets.
+See [Spanish expression and audio guide](docs/EXPRESION_Y_SONIDO.md).
+
+New rendered examples: [expressive ensemble MIDI](artifacts/v0.3.0/ensamble-expresivo.mid)
+and [SoundFont audio](artifacts/v0.3.0/ensamble-expresivo.wav);
+[developed piece MIDI](artifacts/v0.3.0/pieza-desarrollada.mid)
+and [SoundFont audio](artifacts/v0.3.0/pieza-desarrollada.wav).
+
 Open **`start-studio.cmd`** on Windows, or run `python src/dashboard.py`.
 The dashboard opens at **http://127.0.0.1:8765**. On a new machine, first create a
 Python environment and install `requirements-core.txt` as described below.
@@ -134,7 +144,7 @@ neither it nor the original dependency list is a newly validated full lockfile.
 
 ## Validation scope
 
-34 offline tests currently pass, including 48 generation cases across 24 independent
+44 tests currently pass (including three real SoundFont rendering tests), including 48 generation cases across 24 independent
 synthetic seeds, HTTP upload/generation, song development, deterministic output,
 source preservation, and mocked app accept/reject behavior. Corpus evaluation of
 the single-part engine covers 38 existing MIDIs: 33
