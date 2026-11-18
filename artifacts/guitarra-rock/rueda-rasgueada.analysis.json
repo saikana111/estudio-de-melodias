@@ -1,0 +1,231 @@
+{
+  "key": {
+    "tonic": 4,
+    "mode": "dorian"
+  },
+  "key_candidates": [
+    {
+      "tonic": 4,
+      "mode": "major",
+      "name": "E major",
+      "score": 0.75264
+    },
+    {
+      "tonic": 11,
+      "mode": "major",
+      "name": "B major",
+      "score": 0.59867
+    },
+    {
+      "tonic": 1,
+      "mode": "minor",
+      "name": "Db minor",
+      "score": 0.56649
+    }
+  ],
+  "warnings": [],
+  "beat_ticks": 786,
+  "repeated_motif": null,
+  "brief": {
+    "instrumento": 27,
+    "voces": 3,
+    "notas": "medias",
+    "espacio": "poco",
+    "registro": "medio",
+    "disposicion": "cerrada",
+    "patron": "bloques",
+    "tonic": 4,
+    "mode": "dorian",
+    "beat_ticks": 786,
+    "downbeat": 1907,
+    "numerator": 4,
+    "denominator": 4,
+    "bars_per_chord": 1,
+    "cambios": [],
+    "ritmo_armonico": "rock",
+    "costo_cambio": 3.0,
+    "repetir_armonia": true,
+    "intensidad": 68,
+    "curva_dinamica": "estable",
+    "articulacion": "original",
+    "actividad": 1,
+    "perfil_armonico": "automatico",
+    "balance_bajo": -13,
+    "balance_respuesta": -20,
+    "rasgueo": true
+  },
+  "source_notes": 13,
+  "generated_notes": 84,
+  "harmony": [
+    {
+      "start_tick": 1907,
+      "end_tick": 5051,
+      "roman": "v",
+      "pitch_classes": [
+        11,
+        2,
+        6
+      ],
+      "voicing": [
+        47,
+        54,
+        59,
+        62,
+        66
+      ],
+      "functional_tension": 0.8,
+      "target_tension": null
+    },
+    {
+      "start_tick": 5051,
+      "end_tick": 8195,
+      "roman": "i",
+      "pitch_classes": [
+        4,
+        7,
+        11
+      ],
+      "voicing": [
+        52,
+        59,
+        64,
+        67,
+        71
+      ],
+      "functional_tension": 0.0,
+      "target_tension": null
+    },
+    {
+      "start_tick": 8195,
+      "end_tick": 11339,
+      "roman": "VII",
+      "pitch_classes": [
+        2,
+        6,
+        9
+      ],
+      "voicing": [
+        50,
+        57,
+        62,
+        66
+      ],
+      "functional_tension": 1.0,
+      "target_tension": null
+    },
+    {
+      "start_tick": 11339,
+      "end_tick": 13796,
+      "roman": "IV",
+      "pitch_classes": [
+        9,
+        1,
+        4
+      ],
+      "voicing": [
+        45,
+        52,
+        57,
+        61,
+        64,
+        69
+      ],
+      "functional_tension": 0.4,
+      "target_tension": null
+    }
+  ],
+  "limitations": [
+    "Fixed chamber preset; not a learned orchestration or a full song-development model.",
+    "Bass/string separation and melody-rest responses are enforced; strict counterpoint is not.",
+    "Existing non-melody parts are preserved but not musically reconciled with new parts.",
+    "Instrument programs are editable; instrument-specific articulation/fingering is not modelled."
+  ],
+  "ensemble": {
+    "bass_program": 34,
+    "harmony_program": 27,
+    "response_program": 73,
+    "responses": false,
+    "reserved_channels": []
+  },
+  "parts": [
+    {
+      "role": "harmony",
+      "channel": 1,
+      "program": 27
+    },
+    {
+      "role": "bass",
+      "channel": 2,
+      "program": 34
+    }
+  ],
+  "source_tracks_preserved": true,
+  "request": {
+    "mode": "ensemble",
+    "melody_channel": 0,
+    "brief": {
+      "instrumento": 0,
+      "voces": 3,
+      "notas": "medias",
+      "espacio": "poco",
+      "registro": "medio",
+      "disposicion": "cerrada",
+      "patron": "bloques",
+      "tonic": 4,
+      "mode": "dorian",
+      "beat_ticks": 786,
+      "downbeat": 1907,
+      "numerator": 4,
+      "denominator": 4,
+      "bars_per_chord": 1,
+      "cambios": [],
+      "ritmo_armonico": "rock",
+      "costo_cambio": 3.0,
+      "repetir_armonia": true,
+      "intensidad": 68,
+      "curva_dinamica": "estable",
+      "articulacion": "original",
+      "actividad": 1,
+      "perfil_armonico": "automatico",
+      "balance_bajo": -13,
+      "balance_respuesta": -20,
+      "rasgueo": true
+    },
+    "ensemble": {
+      "bass_program": 34,
+      "harmony_program": 27,
+      "response_program": 73,
+      "responses": false,
+      "reserved_channels": []
+    },
+    "song": {
+      "sections": [
+        "theme",
+        "variation",
+        "contrast",
+        "return",
+        "coda"
+      ],
+      "contrast_steps": 2,
+      "contrast_rate": 0.85,
+      "gap_ratio": 0.35,
+      "expresion_secciones": null
+    }
+  },
+  "schema_version": 1,
+  "engine_version": "0.3.0",
+  "generation_mode": "ensemble",
+  "provenance": {
+    "source_sha256": "cd864dda765822107f518d2ffc20756de3889cd28099c9d4515e855e00feec35",
+    "output_sha256": "3d63d6a62ff980f6c036e69da04088bc38656d6cbd9b82135d1eb447741a3564",
+    "python": "3.11.9",
+    "mido_reported_version": "0.0.0.dev0",
+    "implementation_sha256": {
+      "musical.py": "909b8ce060a12d054ca71043388b7ac7083a0de14c06877b0fb080b014e7b053",
+      "guitar_shapes.py": "2e51c168b7505853376e2fa2c44bd8e321230b3f9365c024e5f1f7dd9ffc3256",
+      "ensemble.py": "10eb390f68501123a7cb59a33ae68b6f722e013c97b120c7ee69633fb1c715c6",
+      "song.py": "bd83d6db58cb5b917dab0e6f3db55c77646705fe016dabe811e28e03719b29e0",
+      "delivery.py": "88eb09472c2d09b3bed931c81b0dc76f0a48395550aca40c17e8a934c73a146e"
+    }
+  }
+}

@@ -2,7 +2,6 @@ import bisect
 import math
 
 import mido
-from music21 import converter
 
 
 def detectar_tonalidad(archivo):
@@ -11,7 +10,14 @@ def detectar_tonalidad(archivo):
     Detecta escalas mayores y menores; si se quieren escalas más exóticas, music21
     las tiene, pero hay que compararlas una por una con las notas."""
     
+    from music21 import converter
     return converter.parse(archivo).analyze("key")
+
+
+def grilla_rock(midi, inicios):
+    tempo = next((m.tempo for pista in midi.tracks for m in pista if m.type == "set_tempo"), 500000)
+    pulso = estimar_pulso(inicios, midi.ticks_per_beat, tempo)
+    return {"beat_ticks": max(1, round(pulso)), "downbeat": inicios[0]}
 
 
 def texto_tonalidad(tonalidad):
@@ -232,7 +238,7 @@ def figura(ticks, pulso_ticks):
     return FIGURAS.get(pasos, f"{pasos} semicorcheas")
 
 
-def midi_txt(archivo):
+def midi_txt(archivo, canal=None):
     """Gemini no es capaz de leer archivos MIDI. Esta función recorre el archivo nota por
     nota y lo transforma en texto, con cada nota, su velocidad y su tiempo. Ese texto es
     el que se le envía a la IA para que pueda comprenderlo y dar sugerencias musicales."""
@@ -244,7 +250,7 @@ def midi_txt(archivo):
             # Los mensajes tienen un tiempo "delta" (tiempo desde el evento anterior)
             tiempo_acumulado += mensaje.time
             # Filtrar solo los mensajes de nota musical
-            if mensaje.type == "note_on" and mensaje.velocity > 0:
+            if mensaje.type == "note_on" and mensaje.velocity > 0 and (canal is None or mensaje.channel == canal):
                 texto = f"{texto} \n Nota: {mensaje.note} | Velocidad: {mensaje.velocity} | Canal: {mensaje.channel} | Tiempo: {tiempo_acumulado}"
     return texto
 

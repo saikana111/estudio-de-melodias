@@ -8,6 +8,7 @@ from types import SimpleNamespace
 import unittest
 
 import mido
+from arrangement_intent import resolver_arreglo
 from emotion_skill import EmotionContext, SKILL_PATH, load_emotion_skill
 from ensemble import Ensemble, arrange
 from musical import Brief, Note, read_notes, track_from_notes
@@ -21,7 +22,7 @@ class EmotionSkillTests(unittest.TestCase):
         tree = ast.parse((ROOT / 'src/gem.py').read_text(encoding='utf-8'))
         schema = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == 'Arreglo')
         fields = {n.target.id for n in schema.body if isinstance(n, ast.AnnAssign)}
-        self.assertEqual(set(pack['base']) | {'bateria', 'rasgueo'}, fields)
+        self.assertEqual(set(pack['base']) | {'bateria', 'estilo', 'armonia'}, fields)
         ids = [p['id'] for p in pack['perfiles']]
         self.assertEqual(len(ids), len(set(ids)))
         loaded = load_emotion_skill()
@@ -107,7 +108,7 @@ class EmotionSkillTests(unittest.TestCase):
                   instrucciones_del_sistema="Conversación\n" + skill,
                   contexto_emocional=EmotionContext(), ultimo_arreglo=None,
                   Arreglo=SimpleNamespace(model_validate_json=validate),
-                  cronometro=lambda _: nullcontext(), json=json)
+                  resolver_arreglo=resolver_arreglo, cronometro=lambda _: nullcontext(), json=json)
         exec(compile(functions, str(ROOT / "src/gem.py"), "exec"), ns)
         ns["reiniciar_contexto_musical"]()
         return ns, calls

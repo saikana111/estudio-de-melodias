@@ -42,7 +42,7 @@ def strum(track, ppq):
 
 def perform(source, output, report, brief, channel, drums, guitar):
     part = report["parts"][0]
-    if guitar and 24 <= part["program"] <= 31:
+    if guitar and not brief.rasgueo and 24 <= part["program"] <= 31:
         idx = len(source.tracks)
         output.tracks[idx] = strum(output.tracks[idx], output.ticks_per_beat)
     if drums != "ninguna":

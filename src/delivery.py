@@ -32,7 +32,7 @@ def save_bundle(midi, report, output, source_bytes, mode):
         "output_sha256": hashlib.sha256(midi_data).hexdigest(),
         "python": platform.python_version(), "mido_reported_version": mido.version.__version__,
         "implementation_sha256": {name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
-                                  for name in ("musical.py", "ensemble.py", "song.py", "delivery.py")},
+                                  for name in ("musical.py", "guitar_shapes.py", "ensemble.py", "song.py", "delivery.py")},
     }
     json_data = json.dumps(details, indent=2, ensure_ascii=False).encode("utf-8")
     output.parent.mkdir(parents=True, exist_ok=True)

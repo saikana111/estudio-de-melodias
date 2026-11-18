@@ -22,6 +22,8 @@ from gtts import gTTS
 import pygame
 from elevenlabs.client import ElevenLabs
 
+from decision_voz import Decision, INSTRUCCIONES as GUIA_REVISION
+from arrangement_intent import resolver_arreglo
 from emotion_skill import EmotionContext, load_emotion_skill
 
 # reproducir.py (el sintetizador) se importa recién dentro de las funciones que lo usan: así el
@@ -415,16 +417,16 @@ def acepto_sugerencia(propuesta, mensaje):
 # MIDI-GPT (acompanante.py) escribe las notas. Las palabras de cada campo son las que
 # acompanante.py sabe traducir a los controles del modelo.
 class Arreglo(BaseModel):
-    instrumento: int   # número 0-127 de General MIDI (en el ensamble, el de la armonía)
-    voces: int         # notas que suenan a la vez: 1 = una sola, 3 o 4 = acordes
-    notas: Literal["cortas", "medias", "largas"]
-    espacio: Literal["poco", "medio", "mucho"]   # silencio entre las notas
+    instrumento: int | None = None
+    voces: int | None = None
+    notas: Literal["cortas", "medias", "largas"] | None = None
+    espacio: Literal["poco", "medio", "mucho"] | None = None
     registro: Literal["grave", "medio", "agudo"]
     # Los que siguen los usa el ensamble (musical.py); MIDI-GPT los ignora.
-    instrumento_bajo: int          # número 0-127 de General MIDI
-    instrumento_respuestas: int    # número 0-127 de General MIDI
-    respuestas: bool               # frases cortas en los silencios de la melodía
-    patron: Literal["sostenido", "bloques", "arpegio"]
+    instrumento_bajo: int | None = None
+    instrumento_respuestas: int | None = None
+    respuestas: bool | None = None
+    patron: Literal["sostenido", "bloques", "arpegio"] | None = None
     disposicion: Literal["cerrada", "abierta"]
     intensidad: int                # 24 a 110 (fuerza de las notas; 68 es moderado)
     curva_dinamica: Literal["estable", "crescendo", "diminuendo", "arco"]
@@ -434,8 +436,9 @@ class Arreglo(BaseModel):
     balance_bajo: int              # -36 a 12: fuerza del bajo respecto de la armonía (normal -13)
     balance_respuesta: int         # -36 a 12: fuerza de las respuestas (normal -20)
     # Interpretación (band.py): batería y rasgueo de guitarra. Solo en el ensamble.
-    bateria: Literal["ninguna", "acentos", "rock", "house"]
-    rasgueo: bool                  # acordes de guitarra con golpe de púa (programas 24-31)
+    bateria: Literal["ninguna", "acentos", "rock", "house"] | None = None
+    estilo: Literal["rock", "otro"] = "otro"
+    armonia: Literal["del_estilo", "libre"] = "del_estilo"
 
 
 ultimo_arreglo = None   # el último que se pidió, para que "más grave" o "menos notas" parta de ahí
@@ -475,8 +478,11 @@ def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad):
         "- bateria: \"ninguna\", \"acentos\" (golpes suaves en los cambios de acorde, lo más seguro "
         "con un canto libre), \"rock\" o \"house\" (patrones con pulso fijo). Solo si el género o "
         "el pedido la piden; si dice sin batería, \"ninguna\".\n"
-        "- rasgueo: true para acordes de guitarra tocados con púa (instrumento 24 a 31 y patrón "
-        "bloques); false en cualquier otro caso.\n"
+        "- estilo: rock para rock y sus variantes, incluso sin batería; otro para el resto. "
+        "armonia: del_estilo salvo pedido de armonía libre o vamp. "
+        "Para rock, dejá en null instrumentos, respuestas, voces, patrón, notas, espacio y batería "
+        "si la propuesta aceptada no especifica una variante. Python completa la banda y ejecuta la guitarra. "
+        "Para otros estilos elegí la formación y textura de la propuesta.\n"
         "No asumas que menor es triste: combiná los datos según lo que pidió el usuario.\n"
         f"Sugerencia aceptada: {idea_aceptada}\n"
         f"Tonalidad de la melodía: {tonalidad}\n"
@@ -501,7 +507,7 @@ def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad):
                 temperature=0.3,
             ),
         )
-    ultimo_arreglo = json.loads(respuesta.text)  # convierte el texto JSON en un diccionario
+    ultimo_arreglo = resolver_arreglo(json.loads(respuesta.text))  # convierte el texto JSON en un diccionario
     return ultimo_arreglo
 
 
@@ -558,3 +564,12 @@ def corregir_nombre(transcripcion, rechazados):
         ),
     )
     return respuesta.text.strip()
+
+
+def decision_voz(estado):
+    entrada = json.dumps(estado, ensure_ascii=False)
+    respuesta = client.models.generate_content(
+        model=MODELO, contents=entrada,
+        config=types.GenerateContentConfig(system_instruction=GUIA_REVISION,
+            response_mime_type="application/json", response_schema=Decision, temperature=0.1))
+    return Decision.model_validate_json(respuesta.text).model_dump()

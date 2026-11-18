@@ -2,6 +2,8 @@ import json
 import os
 import threading
 import time
+from pathlib import Path
+import revision_musical as revision
 
 import grabar, convertir, correccion, reproducir, esp32, proyectos, sugerencia
 from asistente import gem   # Gemini o ChatGPT, según IA_CHAT en el .env
@@ -18,6 +20,19 @@ CANAL_IA = 2
 proyecto = None            # proyecto abierto (archivo MIDI multipista) o None en la pantalla de inicio
 nombre = None              # nombre del archivo del proyecto, sin .mid
 ultima_propuesta = ""      # última idea que propuso la IA, por si el usuario la acepta
+esperando_intencion = False
+vista_pendiente = None
+partes_pendientes = []
+dialogo_revision = []
+foco = None
+ultima_parte_aceptada = None
+
+
+def cerrar_revision():
+    global vista_pendiente, foco, ultima_parte_aceptada
+    vista_pendiente = foco = None
+    ultima_parte_aceptada = None
+    partes_pendientes.clear()
 ultima_melodia = CANAL_MELODIA   # canal de la última melodía grabada: la IA acompaña a esa
 grabacion_teclado = None   # notas tocadas mientras se graba el teclado (None = no se está grabando)
 inicio_teclado = 0.0
@@ -91,6 +106,8 @@ def atender(pedido, config):
     """Hace lo que se pidió desde el ESP32 (botones y opciones del menú)."""
     global proyecto, nombre, ultima_melodia
     tipo = pedido[0]
+    if tipo in ("MOVER", "CERRAR") or (tipo == "PISTA" and pedido[2] in ("BORRAR", "INST")):
+        cerrar_revision()
 
     # ----- Pantalla de inicio -----
     if tipo == "NUEVO":
@@ -105,7 +122,9 @@ def atender(pedido, config):
         if pedido[1] < len(nombres):
             nombre = nombres[pedido[1]]
             proyecto = proyectos.abrir(nombre)
-            ultima_melodia = CANAL_MELODIA
+            ultima_melodia = next((proyectos.canal_de_pista(t) for t in reversed(proyecto.tracks)
+                                   if not sugerencia.es_sugerencia(t) and
+                                   proyectos.canal_de_pista(t) not in (None, 9)), CANAL_MELODIA)
             abrir_pantalla_principal()
             reproducir.reproducir_proyecto(proyecto)
 
@@ -144,7 +163,10 @@ def atender(pedido, config):
 
 
 def abrir_pantalla_principal():
-    global ultima_propuesta
+    global ultima_propuesta, esperando_intencion, vista_pendiente
+    esperando_intencion = False
+    cerrar_revision()
+    dialogo_revision.clear()
     gem.reiniciar_contexto_musical()   # otro proyecto: la IA empieza la charla de cero
     ultima_propuesta = ""
     enviar_pistas()
@@ -220,46 +242,117 @@ def procesar_melodia():
     ultima_melodia = canal
     reproducir.reproducir_proyecto(proyecto)
 
-    ultima_propuesta = gem.analizar_midi(correccion.midi_txt(archivo_midi),
-                                         correccion.texto_tonalidad(tonalidad))
+    preguntar_intencion()
+
+
+def preguntar_intencion():
+    global esperando_intencion, ultima_propuesta, vista_pendiente
+    dialogo_revision.clear()
+    esperando_intencion = True
+    cerrar_revision()
+    ultima_propuesta = ""
+    gem.leer("¿Qué querés transmitir con esta melodía? Podés contarme una emoción, "
+             "un estilo o una idea para acompañarla.", expresar=False)
+
+
+def escuchar(prueba, motivo):
+    global vista_pendiente
+    vista_pendiente = prueba
+    gem.leer(motivo, expresar=False)
+    reproducir.reproducir_proyecto(prueba)
+    esp32.enviar("PANTALLA:PRINCIPAL")
+    gem.leer("¿Cómo te suena?", expresar=False)
+
+
+def conservar(prueba):
+    proyectos.guardar(prueba, nombre)
+    proyecto.tracks = prueba.tracks
+    proyecto.type = prueba.type
+    del proyecto.merged_track
+    enviar_pistas()
+
+
+def revisar_borrador(prueba, tipo):
+    global vista_pendiente
+    revision.guardar_midi(prueba, Path(proyectos.CARPETA) / "borradores" / (nombre + ".mid"))
+    cerrar_revision()
+    if tipo == "cancion":
+        escuchar(prueba, "Escuchemos la canción completa.")
+    else:
+        partes_pendientes.extend(t for t in prueba.tracks if revision.rol(t))
+        continuar_revision()
+
+
+def continuar_revision():
+    global vista_pendiente, foco
+    vista_pendiente = foco = None
+    if partes_pendientes:
+        track = partes_pendientes.pop(0)
+        foco = track.name
+        escuchar(revision.incorporar(proyecto, track), f"Escuchá cómo queda {revision.etiqueta(track)}.")
+    else:
+        esp32.enviar("PANTALLA:PRINCIPAL")
+        gem.leer("Así queda tu versión. Podés escucharla o contarme qué cambiarías.", expresar=False)
 
 
 def procesar_chat():
-    global ultima_propuesta
-    resultado = gem.responder("grabacion_chat.wav")
-    if resultado is None:
-        return   # no se entendió nada
-    mensaje, respuesta = resultado
-
-    # Si el usuario acepta la idea que propuso la IA, o pide directamente una sugerencia,
-    # se arma y se reproduce. Se pasa también su mensaje, por si pidió algo puntual
-    # (por ejemplo "que no sea de piano"), y la respuesta que la IA le acaba de dar.
-    if gem.acepto_sugerencia(ultima_propuesta, mensaje):
-        generar_sugerencia(f"Propuesta anterior de la IA: {ultima_propuesta}\n"
-                           f"Pedido del usuario: {mensaje}\n"
-                           f"Respuesta de la IA a ese pedido: {respuesta}")
-        ultima_propuesta = ""
-    else:
-        ultima_propuesta = respuesta
-
-
-# Segundos que se espera la respuesta a "¿Qué querés que genere?". Si no llega (por ejemplo,
-# con un firmware viejo que no tiene esa pantalla), se agregan instrumentos.
-ESPERA_TIPO_SUGERENCIA = 120
-
-
-def elegir_tipo_sugerencia():
-    """Pregunta en voz alta y en la pantalla si se agregan instrumentos que acompañen la
-    melodía o si se desarrolla en una composición larga. Devuelve "ensamble" o "cancion"."""
-    esp32.enviar("PANTALLA:TIPO_SUGERENCIA")   # dos opciones: Instrumentos / Cancion larga
-    gem.decir_frase("pregunta_tipo_sugerencia",
-                    "¿Quieres que agregue instrumentos que acompañen tu melodía, "
-                    "o que la desarrolle en una canción más larga?")
-    tipo = esp32.esperar_tipo_sugerencia(ESPERA_TIPO_SUGERENCIA)
-    if tipo is None:
-        print("No llegó la respuesta a '¿Qué querés que genere?'. Se agregan instrumentos.")
-        return "ensamble"
-    return tipo
+    global esperando_intencion, ultima_parte_aceptada
+    esp32.enviar("PANTALLA:PRINCIPAL")
+    try:
+        mensaje = gem.transcribir("grabacion_chat.wav")
+    except Exception as e:
+        print(f"Error de transcripción: {e}")
+        mensaje = ""
+    if not mensaje:
+        esp32.enviar("PANTALLA:PRINCIPAL")
+        gem.leer("No llegué a escucharte. ¿Qué te pareció?", expresar=False)
+        return
+    base = vista_pendiente if vista_pendiente is not None else proyecto
+    pistas = {t.name: t for t in base.tracks if revision.rol(t) and revision.rol(t) != "Secciones"}
+    estado = dict(mensaje=mensaje, escuchando_propuesta=vista_pendiente is not None,
+                  esperando_intencion=esperando_intencion, foco=foco, ultima_aceptada=ultima_parte_aceptada,
+                  pistas={n: revision.etiqueta(t) for n,t in pistas.items()},
+                  siguientes=[revision.etiqueta(t) for t in partes_pendientes],
+                  conversacion=dialogo_revision[-12:])
+    try:
+        decision = gem.decision_voz(estado)
+        accion = decision["accion"]
+        objetivos = decision["pistas"]
+        dialogo_revision.append({"usuario": mensaje, "accion": accion, "foco": foco})
+        if accion == "generar":
+            idea = json.dumps(dialogo_revision[-12:], ensure_ascii=False)
+            generar_sugerencia(idea, tipo=decision["formato"])
+            esperando_intencion = False
+        elif accion == "guardar" and vista_pendiente is not None:
+            conservar(vista_pendiente)
+            if foco in pistas:
+                ultima_parte_aceptada = foco
+            continuar_revision()
+        elif accion == "descartar" and vista_pendiente is not None:
+            continuar_revision()
+        elif accion == "terminar":
+            cerrar_revision()
+            gem.leer("Quedó guardado lo que elegiste.", expresar=False)
+        elif accion == "repetir":
+            reproducir.reproducir_proyecto(base)
+        elif accion in ("quitar", "dinamica") and objetivos and all(n in pistas for n in objetivos):
+            if accion == "quitar":
+                prueba = revision.sin_pistas(base, set(objetivos))
+            else:
+                delta = decision["cambio_velocity"]
+                if type(delta) is not int or not 0 < abs(delta) <= 30:
+                    raise ValueError("Dinámica fuera de rango")
+                prueba = revision.ajustar_dinamica(base, objetivos, delta)
+            escuchar(prueba, "Escuchemos el cambio.")
+        else:
+            pregunta = decision["respuesta"] if accion == "aclarar" else "¿Qué parte querés cambiar?"
+            dialogo_revision.append({"asistente": pregunta})
+            gem.leer(pregunta, expresar=False)
+    except Exception as e:
+        print(f"No se pudo procesar la respuesta de voz: {e}")
+        gem.leer("No pude completar ese pedido. ¿Me lo contás otra vez?", expresar=False)
+    finally:
+        esp32.enviar("PANTALLA:PRINCIPAL")
 
 
 def pista_de_respaldo(idea, datos, melodia_txt, tonalidad, canal):
@@ -273,8 +366,8 @@ def pista_de_respaldo(idea, datos, melodia_txt, tonalidad, canal):
         return sugerencia.pista_con_acordes(acordes, proyecto, canal)
 
 
-def generar_sugerencia(idea, canal=None):
-    """Primero pregunta qué generar (elegir_tipo_sugerencia). Gemini elige los instrumentos y
+def generar_sugerencia(idea, canal=None, tipo="ensamble"):
+    """El formato sale de la conversación. Gemini elige los instrumentos y
     el carácter, y sugerencia.py arma las pistas con reglas musicales:
       - "ensamble": armonía, bajo y respuestas alrededor de la melodía (sugerencia.ensamble)
       - "cancion": la melodía desarrollada en secciones, con el ensamble (sugerencia.cancion)
@@ -282,13 +375,12 @@ def generar_sugerencia(idea, canal=None):
     canal = pista a la que acompaña; sin canal, la última melodía grabada."""
     es_de_la_ia = any(sugerencia.es_sugerencia(p) and proyectos.canal_de_pista(p) == canal
                       for p in proyecto.tracks)
-    if canal is None or canal == CANAL_IA or es_de_la_ia:
+    if canal is None or es_de_la_ia:
         canal = ultima_melodia   # se acompaña a una melodía, no a otra sugerencia
-    tipo = elegir_tipo_sugerencia()
     try:
         archivo = os.path.join(proyectos.CARPETA, nombre + ".mid")
         tonalidad = correccion.texto_tonalidad(correccion.detectar_tonalidad(archivo))
-        melodia_txt = correccion.midi_txt(archivo)
+        melodia_txt = correccion.midi_txt(archivo, canal)
         datos = gem.pedir_arreglo_json(idea, melodia_txt, tonalidad)
         print(f"Arreglo pedido ({tipo}): {datos}")
 
@@ -306,9 +398,14 @@ def generar_sugerencia(idea, canal=None):
 
         # "¿Aceptar sugerencia?" Sí / No
         if prueba is not None:
-            sugerencia.proponer(prueba, proyecto, nombre)
+            revisar_borrador(prueba, tipo)
         else:
-            sugerencia.proponer_sugerencia(pista, proyecto, nombre)
+            pista.name = "Sugerencia IA - Armonia"
+            cerrar_revision()
+            prueba = revision.incorporar(proyecto, pista)
+            revision.guardar_midi(prueba, Path(proyectos.CARPETA) / "borradores" / (nombre + ".mid"))
+            partes_pendientes.append(prueba.tracks[-1])
+            continuar_revision()
         enviar_pistas()
     except Exception as e:
         print(f"No se pudo generar la sugerencia ({tipo}): {e}")
@@ -364,7 +461,7 @@ def tocar_teclado():
 
 
 def guardar_pista_teclado():
-    global grabacion_teclado
+    global grabacion_teclado, ultima_melodia
     eventos, grabacion_teclado = grabacion_teclado, None
     if not eventos:
         return   # no se tocó nada
@@ -374,6 +471,8 @@ def guardar_pista_teclado():
     pista = proyectos.teclado_a_pista(eventos, proyectos.nombre_libre(proyecto, "Teclado"), canal,
                                       esp32.instrumento_teclado, proyecto.ticks_per_beat)
     agregar_pista(pista)
+    ultima_melodia = canal
+    preguntar_intencion()
 
 
 if __name__ == "__main__":

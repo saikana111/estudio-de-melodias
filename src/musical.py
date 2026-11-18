@@ -57,6 +57,7 @@ def read_notes(midi, channel=None):
 
 @dataclass(frozen=True)
 class Brief:
+    # Guitar strokes use a complete playable grip (4–6 sounding strings).
     instrumento: int = 0
     voces: int = 3
     notas: str = "largas"
@@ -85,8 +86,11 @@ class Brief:
     perfil_armonico: str = "automatico"
     balance_bajo: int = -13
     balance_respuesta: int = -20
+    rasgueo: bool = False
 
     def __post_init__(self):
+        if type(self.rasgueo) is not bool:
+            raise ValueError("rasgueo must be boolean")
         for name, low, high in (("instrumento", 0, 127), ("voces", 1, 4),
                                 ("downbeat", 0, 2**31-1), ("bars_per_chord", 1, 4),
                                 ("intensidad", 24, 110), ("actividad", 1, 4),
@@ -101,7 +105,7 @@ class Brief:
             "disposicion": ("cerrada", "abierta"),
             "patron": ("bloques", "arpegio", "sostenido"),
             "mode": ("major", "minor", "dorian", "mixolydian"),
-            "ritmo_armonico": ("compases", "libre"),
+            "ritmo_armonico": ("compases", "libre", "rock"),
             "curva_dinamica": ("estable", "crescendo", "diminuendo", "arco"),
             "articulacion": ("original", "legato", "normal", "staccato"),
             "perfil_armonico": ("automatico", "reposado", "creciente", "resolver", "arco"),
@@ -324,7 +328,7 @@ def plan_harmony(notes, brief, ppq):
         candidates[0]["tonic"], candidates[0]["mode"])
     beat = brief.beat_ticks or ppq
     bar = beat * brief.numerator * 4 / brief.denominator
-    span = bar * brief.bars_per_chord
+    span = bar if brief.ritmo_armonico == "rock" else bar * brief.bars_per_chord
     end = max(n.end for n in notes)
     # A pickup gets a short initial harmonic segment, not a shifted melody.
     boundaries = [0] if brief.downbeat else []
@@ -352,6 +356,22 @@ def plan_harmony(notes, brief, ppq):
     path = paths[min(costs, key=costs.get)]
     plan = [(a, b, chords[j]) for a, b, j in zip(boundaries, boundaries[1:], path)]
     motif = None
+    if brief.ritmo_armonico == "rock" and not brief.cambios:
+        # Each template spans four bars. Select its rotation by melody evidence
+        # over the entire performance, counting a pickup as the preceding bar.
+        loops = {
+            "major": ((0,4,5,3), (0,3,5,4), (0,5,3,4)),
+            "minor": ((0,5,2,6), (0,6,5,4), (0,3,5,6)),
+            "dorian": ((0,3,6,2), (0,6,3,4)),
+            "mixolydian": ((0,6,3,5), (0,4,6,3)),
+        }
+        bars = list(zip(boundaries, boundaries[1:]))
+        def sequence(loop, phase):
+            return [(a,b,chords[loop[(int((a-brief.downbeat)//span)+phase)%4]]) for a,b in bars]
+        def cost(seq):
+            return sum(_fit(notes,c,a,b,beat) + _expression_cost(c,a,b,notes,brief)
+                       for a,b,c in seq)
+        plan = min((sequence(loop, phase) for loop in loops[mode] for phase in range(4)), key=cost)
     if brief.ritmo_armonico == "libre" and not brief.cambios:
         plan = _free_harmony(notes, chords, brief.costo_cambio, brief)
         motif = repeated_motif(notes) if brief.repetir_armonia and brief.perfil_armonico in ("automatico", "reposado") else None
@@ -457,7 +477,10 @@ def add_controls(track, controls):
 
 def realize(plan, notes, brief, beat, voicing_filter=None):
     """Global DP voice leading, then a repeatable rhythm; no random note sampling."""
-    options = [_voicings(chord, brief) for _, _, chord in plan]
+    guitar = (brief.rasgueo and 24 <= brief.instrumento <= 31 and brief.voces > 1
+              and brief.patron != "arpegio")
+    from guitar_shapes import grips
+    options = [grips(chord) if guitar else _voicings(chord, brief) for _, _, chord in plan]
     if voicing_filter is not None:
         options = [[v for v in choices if voicing_filter(chord, v)]
                    for (_, _, chord), choices in zip(plan, options)]
@@ -484,6 +507,7 @@ def realize(plan, notes, brief, beat, voicing_filter=None):
         costs, paths = next_costs, next_paths
     voicings = paths[min(costs, key=costs.get)]
     result = []
+    stroke = 0
     unit = {"cortas": 0.5, "medias": 1, "largas": 2}[brief.notas] * beat
     spacing = {"poco": 1, "medio": 2, "mucho": 4}[brief.espacio]
     for (start, end, _), voicing in zip(plan, voicings):
@@ -495,9 +519,14 @@ def realize(plan, notes, brief, beat, voicing_filter=None):
             stop = slot_end if brief.patron == "sostenido" else min(slot_end, tick+max(1, round(unit*0.9)))
             if brief.articulacion != "original":
                 stop = articulated_end(tick, slot_end, brief.articulacion)
-            for pitch in pitches:
+            if guitar and stroke % 2:
+                pitches = pitches[::-1]
+            spread = min(max(1, round(beat/55)), (stop-tick-1)//max(1,len(pitches)-1)) if guitar else 0
+            for string, pitch in enumerate(pitches):
                 velocity = expressive_velocity(brief, tick, plan[0][0], plan[-1][1], accent=0 if index == 0 else -10)
-                result.append(Note(tick, stop, pitch, velocity, 2))
+                result.append(Note(tick+string*spread, stop, pitch,
+                                   max(1,velocity-2*string) if guitar else velocity, 2))
+            stroke += 1
     return result, voicings
 
 

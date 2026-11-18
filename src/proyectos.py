@@ -4,6 +4,7 @@ import unicodedata
 from datetime import datetime
 
 import mido
+from revision_musical import guardar_midi
 
 import esp32
 from asistente import gem   # Gemini o ChatGPT, según IA_CHAT en el .env
@@ -43,7 +44,7 @@ def guardar(proyecto, nombre):
     """Guarda el proyecto en proyectos/nombre.mid. Se llama cada vez que algo cambia,
     así no se pierde el progreso."""
     os.makedirs(CARPETA, exist_ok=True)
-    proyecto.save(os.path.join(CARPETA, nombre + ".mid"))
+    guardar_midi(proyecto, os.path.join(CARPETA, nombre + ".mid"))
 
 
 def abrir(nombre):

@@ -226,7 +226,7 @@ def _brief_y_ensamble(datos):
     con_respuestas = datos.pop("respuestas", True)
     # El canto no sigue un metrónomo: la armonía cambia donde cambian las notas cantadas,
     # no en compases fijos.
-    datos["ritmo_armonico"] = "libre"
+    datos.setdefault("ritmo_armonico", "libre")
     validos = {campo.name for campo in fields(Brief)}
     brief = Brief(**{clave: valor for clave, valor in datos.items() if clave in validos})
     grupo = Ensemble(bass_program=bajo, harmony_program=brief.instrumento,
@@ -265,6 +265,11 @@ def ensamble(datos, proyecto, canal_melodia=0):
     Gemini lo eligió, batería y rasgueo de guitarra (band.py, ver _interpretar()).
     Devuelve (proyecto de prueba con las pistas nuevas, informe). No toca el proyecto."""
     fuente = _sin_sugerencias(proyecto)
+    if datos.get("progresion_rock", datos.get("bateria") == "rock"):
+        import correccion
+        inicios = onsets_melodia(fuente, canal_melodia)
+        if inicios:
+            datos = dict(datos, ritmo_armonico="rock", **correccion.grilla_rock(fuente, inicios))
     # El canal 1 queda libre aunque no haya teclado grabado: es el del teclado en vivo.
     reservados = tuple(sorted(_canales_usados(fuente) | {0, 1, 9}))
     prueba, informe, brief = _probar_registros(
@@ -290,7 +295,7 @@ def _interpretar(datos, fuente, prueba, informe, brief, canal_melodia):
     if bateria == "ninguna" and not rasgueo:
         return
     from band import perform
-    if bateria in ("rock", "house"):
+    if bateria in ("rock", "house") and brief.beat_ticks is None:
         import correccion
         inicios = onsets_melodia(fuente, canal_melodia)
         pulso = round(correccion.estimar_pulso(inicios, fuente.ticks_per_beat))

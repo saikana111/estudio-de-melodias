@@ -166,6 +166,8 @@ function elegir(id, valor) {
 }
 
 function usarArreglo(a) {
+  $('strum').checked = !!a.rasgueo;
+  $('rhythm').value = (a.progresion_rock ?? (a.bateria === 'rock')) ? 'rock' : 'libre';
   elegir('harmony', a.instrumento);
   elegir('bass', a.instrumento_bajo);
   elegir('response', a.instrumento_respuestas);

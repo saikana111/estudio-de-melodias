@@ -61,6 +61,11 @@ def generate(data, settings=None):
     if any(not isinstance(v, dict) for v in (settings.get('brief', {}), settings.get('ensemble', {}), song_data)):
         raise ValueError("Musical settings must be JSON objects")
     brief_data = {'patron': 'sostenido', 'ritmo_armonico': 'libre', **settings.get('brief', {})}
+    if brief_data["ritmo_armonico"] == "rock" and brief_data.get("beat_ticks") is None:
+        from correccion import grilla_rock
+        grid = grilla_rock(source, sorted({n.start for n in selected}))
+        brief_data["beat_ticks"] = grid["beat_ticks"]
+        brief_data.setdefault("downbeat", grid["downbeat"])
     meters = {(m.numerator, m.denominator) for t in source.tracks for m in t if m.type == 'time_signature'}
     if len(meters) > 1:
         raise ValueError("Changing meter is not supported; select a constant-meter excerpt")
