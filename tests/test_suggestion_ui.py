@@ -13,7 +13,7 @@ from delivery import serialize_midi
 
 class SuggestionUiTests(unittest.TestCase):
     def load_ui(self, directory, accepted):
-        mocks = {name: MagicMock() for name in ("music21", "acompanante", "esp32", "gem", "proyectos", "reproducir")}
+        mocks = {name: MagicMock() for name in ("music21", "acompanante", "esp32", "asistente", "proyectos", "reproducir")}
         mocks["proyectos"].CARPETA = directory
         mocks["esp32"].esperar_si_no.return_value = accepted
         with patch.dict(sys.modules, mocks):
@@ -27,21 +27,21 @@ class SuggestionUiTests(unittest.TestCase):
             ui, mocks = self.load_ui(directory, False)
             project = seed()
             before = serialize_midi(project)
-            preview, report = candidate(project, BRIEF)
-            self.assertFalse(ui.proponer_ensamble(preview, report, project, "test"))
+            preview, _ = candidate(project, BRIEF)
+            self.assertFalse(ui.proponer(preview, project, "test"))
             self.assertEqual(serialize_midi(project), before)
             mocks["proyectos"].guardar.assert_not_called()
             self.assertFalse(list(Path(directory).iterdir()))
 
-    def test_accept_commits_whole_group_and_report(self):
+    def test_accept_saves_whole_group(self):
         with tempfile.TemporaryDirectory() as directory:
             ui, mocks = self.load_ui(directory, True)
             project = seed()
-            preview, report = candidate(project, BRIEF)
-            self.assertTrue(ui.proponer_ensamble(preview, report, project, "test"))
+            preview, _ = candidate(project, BRIEF)
+            self.assertTrue(ui.proponer(preview, project, "test"))
             self.assertEqual(project.tracks, preview.tracks)
             mocks["proyectos"].guardar.assert_called_once_with(project, "test")
-            self.assertTrue((Path(directory)/"test.arrangement.json").exists())
+            mocks["reproducir"].reproducir_proyecto.assert_called_once_with(preview)
 
 
 if __name__ == "__main__":

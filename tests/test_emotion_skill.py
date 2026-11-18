@@ -21,7 +21,7 @@ class EmotionSkillTests(unittest.TestCase):
         tree = ast.parse((ROOT / 'src/gem.py').read_text(encoding='utf-8'))
         schema = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == 'Arreglo')
         fields = {n.target.id for n in schema.body if isinstance(n, ast.AnnAssign)}
-        self.assertEqual(set(pack['base']), fields)
+        self.assertEqual(set(pack['base']) | {'bateria', 'rasgueo'}, fields)
         ids = [p['id'] for p in pack['perfiles']]
         self.assertEqual(len(ids), len(set(ids)))
         loaded = load_emotion_skill()
@@ -30,6 +30,10 @@ class EmotionSkillTests(unittest.TestCase):
                 self.assertTrue(set(profile['ajustes']) <= fields)
                 self.assertIn(profile['criterio'], loaded)
                 settings = pack['base'] | profile['ajustes']
+                ensemble = Ensemble(bass_program=settings.pop('instrumento_bajo'),
+                                    response_program=settings.pop('instrumento_respuestas'),
+                                    responses=settings.pop('respuestas'),
+                                    harmony_program=settings['instrumento'])
                 for tonic, mode, pitches in [(0, 'major', [60, 64, 67, 65, 62, 60]),
                                               (4, 'minor', [59, 64, 66, 64, 62, 61])]:
                     midi = mido.MidiFile(ticks_per_beat=480)
@@ -38,7 +42,7 @@ class EmotionSkillTests(unittest.TestCase):
                     before = read_notes(midi, 0)
                     output, report = arrange(midi, Brief(**settings, tonic=tonic, mode=mode,
                                                         ritmo_armonico='libre'),
-                                             ensemble=Ensemble(harmony_program=settings['instrumento']))
+                                             ensemble=ensemble)
                     self.assertEqual(read_notes(output, 0), before)
                     self.assertEqual(read_notes(midi, 0), before)
                     harmony = read_notes(output, report['parts'][0]['channel'])
