@@ -3,16 +3,65 @@ import ast
 from contextlib import nullcontext
 import json
 from pathlib import Path
+import tempfile
 from types import SimpleNamespace
 import unittest
 
-from emotion_skill import EmotionContext, load_emotion_skill
-from musical import Brief
+import mido
+from emotion_skill import EmotionContext, SKILL_PATH, load_emotion_skill
+from ensemble import Ensemble, arrange
+from musical import Brief, Note, read_notes, track_from_notes
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class EmotionSkillTests(unittest.TestCase):
+    def test_all_profiles_match_app_schema_and_generate_without_changing_melody(self):
+        pack = json.loads((SKILL_PATH.parent / 'knowledge/02-perfiles.json').read_text(encoding='utf-8'))
+        tree = ast.parse((ROOT / 'src/gem.py').read_text(encoding='utf-8'))
+        schema = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == 'Arreglo')
+        fields = {n.target.id for n in schema.body if isinstance(n, ast.AnnAssign)}
+        self.assertEqual(set(pack['base']), fields)
+        ids = [p['id'] for p in pack['perfiles']]
+        self.assertEqual(len(ids), len(set(ids)))
+        loaded = load_emotion_skill()
+        for profile in pack['perfiles']:
+            with self.subTest(profile=profile['id']):
+                self.assertTrue(set(profile['ajustes']) <= fields)
+                self.assertIn(profile['criterio'], loaded)
+                settings = pack['base'] | profile['ajustes']
+                for tonic, mode, pitches in [(0, 'major', [60, 64, 67, 65, 62, 60]),
+                                              (4, 'minor', [59, 64, 66, 64, 62, 61])]:
+                    midi = mido.MidiFile(ticks_per_beat=480)
+                    midi.tracks.append(track_from_notes([
+                        Note(i*600, i*600+420, pitch, 90) for i, pitch in enumerate(pitches)], 0, 0))
+                    before = read_notes(midi, 0)
+                    output, report = arrange(midi, Brief(**settings, tonic=tonic, mode=mode,
+                                                        ritmo_armonico='libre'),
+                                             ensemble=Ensemble(harmony_program=settings['instrumento']))
+                    self.assertEqual(read_notes(output, 0), before)
+                    self.assertEqual(read_notes(midi, 0), before)
+                    harmony = read_notes(output, report['parts'][0]['channel'])
+                    self.assertTrue(harmony)
+                    self.assertTrue(all(n.end > n.start and 0 < n.velocity <= 127 for n in harmony))
+
+    def test_new_local_knowledge_is_inlined_without_tools_or_links(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill = root / 'SKILL.md'
+            skill.write_text('---\nname: test\ndescription: test\n---\nUse local knowledge.', encoding='utf-8')
+            knowledge = root / 'knowledge'
+            knowledge.mkdir()
+            (knowledge / 'rule.md').write_text('Keep dynamics fixed when changing tension.', encoding='utf-8')
+            first = load_emotion_skill(skill)
+            (knowledge / 'new.json').write_text('{"new_rule": "Respect the chosen instrument"}', encoding='utf-8')
+            second = load_emotion_skill(skill)
+            self.assertIn('Keep dynamics fixed', first)
+            self.assertIn('Respect the chosen instrument', second)
+            (knowledge / 'new.json').write_text('{broken', encoding='utf-8')
+            with self.assertRaises(json.JSONDecodeError):
+                load_emotion_skill(skill)
+
     def test_context_is_bounded_and_keeps_latest_correction(self):
         context = EmotionContext(max_chars=1000)
         for i in range(15):
