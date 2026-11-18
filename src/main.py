@@ -258,7 +258,7 @@ def generar_sugerencia(idea, canal=None):
         tonalidad = correccion.texto_tonalidad(correccion.detectar_tonalidad(archivo))
         melodia_txt = correccion.midi_txt(archivo, canal)
         try:
-            datos = gem.pedir_arreglo_json(idea, melodia_txt, tonalidad)
+            datos = gem.pedir_arreglo_json(idea, melodia_txt, tonalidad, banda=motor in ("ensemble", "ensamble"))
             configuracion = os.getenv("ARREGLO_CONFIG")
             if configuracion and motor != "midigpt":
                 with open(configuracion, encoding="utf-8") as f:

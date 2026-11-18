@@ -33,8 +33,8 @@ def load_emotion_skill(skill_path=SKILL_PATH):
         if path.suffix == ".json":
             # Parse before sending; compact representation avoids formatting tokens.
             content = json.dumps(json.loads(content), ensure_ascii=False, separators=(",", ":"))
-        sections.append(f"\n\n--- Material local: {path.relative_to(knowledge).as_posix()} ---\n{content}")
-    return "\n".join(sections)
+        sections.append(content)
+    return "\n\n".join(sections)
 
 
 class EmotionContext:

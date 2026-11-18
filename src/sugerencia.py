@@ -16,8 +16,14 @@ from ensemble import Ensemble
 
 
 def ensamble(datos, proyecto, canal_melodia=0):
-    return candidate(proyecto, Brief(**datos), canal_melodia,
-                     Ensemble(harmony_program=datos.get("instrumento", 48)))
+    ajustes = dict(datos)
+    ens = Ensemble(harmony_program=ajustes.get("instrumento", 48),
+                   bass_program=ajustes.pop("bajo_gm", 43),
+                   response_program=ajustes.pop("respuesta_gm", 73),
+                   responses=ajustes.pop("respuestas", True))
+    drums = ajustes.pop("bateria", "ninguna")
+    guitar = ajustes.pop("rasgueo", False)
+    return candidate(proyecto, Brief(**ajustes), canal_melodia, ens, drums=drums, guitar=guitar)
 
 
 def proponer_ensamble(prueba, informe, proyecto, nombre):

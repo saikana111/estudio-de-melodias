@@ -413,8 +413,17 @@ class Arreglo(BaseModel):
 ultimo_arreglo = None   # el último que se pidió, para que "más grave" o "menos notas" parta de ahí
 
 
-def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad):
+class ArregloBanda(Arreglo):
+    bajo_gm: int = Field(default=43, ge=0, le=127)
+    respuestas: bool = True
+    respuesta_gm: int = Field(default=73, ge=0, le=127)
+    bateria: Literal["ninguna", "acentos", "rock", "house"] = "ninguna"
+    rasgueo: bool = False
+
+
+def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad, *, banda=False):
     global ultimo_arreglo
+    esquema = ArregloBanda if banda else Arreglo
     pedido = (
         "Convertí esta sugerencia musical en los datos de UNA pista nueva de acompañamiento:\n"
         "- instrumento: número 0-127 de General MIDI (por ejemplo 0 piano, 25 guitarra acústica, "
@@ -444,18 +453,20 @@ def pedir_arreglo_json(idea_aceptada, melodia_txt, tonalidad):
     if ultimo_arreglo:
         pedido += ("\nDatos de la sugerencia anterior, por si el usuario pide un cambio sobre ella "
                    f"(si pide algo nuevo, ignoralos): {json.dumps(ultimo_arreglo)}")
+    if banda:
+        pedido += "\nPlanificá el ensamble completo. instrumento es la armonía. Elegí bajo_gm, respuestas, respuesta_gm, bateria y rasgueo según el género, el pulso y el pedido."
     with cronometro("Gemini (instrumento y carácter)"):
         respuesta = client.models.generate_content(
             model=MODELO,
             contents=pedido,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",  # obliga a responder en JSON
-                response_schema=Arreglo,                # ...y con esta forma exacta
+                response_schema=esquema,
                 system_instruction=GUIA_EMOCIONAL,
                 temperature=0.3,
             ),
         )
-    ultimo_arreglo = Arreglo.model_validate_json(respuesta.text).model_dump()
+    ultimo_arreglo = esquema.model_validate_json(respuesta.text).model_dump()
     return ultimo_arreglo
 
 

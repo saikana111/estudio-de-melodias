@@ -43,8 +43,12 @@ preferencias sin deducir biografía o salud mental.
 ## Contrato con el generador
 
 El esquema actual controla armonía, expresión y balance de un acompañamiento.
-`instrumento` cambia la parte armónica; en el ensamble el bajo es contrabajo y
-las respuestas son flauta. `voces` es la cantidad de alturas de la armonía, no
+`instrumento` cambia la parte armónica. Cuando el esquema incluye `bajo_gm`,
+elegí el timbre del bajo para el género, habilitá respuestas solo si la melodía
+deja huecos y elegí batería según el pulso. Para acordes de guitarra tocados
+con púa activá el rasgueo; para punteos elegí arpegio. En el esquema básico
+solo podés ajustar la armonía y su expresión y los balances disponibles.
+`voces` es la cantidad de alturas de la armonía, no
 el número de instrumentos. El motor elige acordes y conduce voces desde la
 melodía: vos elegís el comportamiento dentro de lo que el esquema permite.
 

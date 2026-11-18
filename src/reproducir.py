@@ -60,7 +60,7 @@ def _sonar(msg):
         if msg.channel == CANAL_TECLADO:
             elegir_instrumento(msg.program)   # respeta el piano con capas de velocity
         else:
-            fs.program_select(msg.channel, sfid, 0, msg.program)
+            fs.program_select(msg.channel, sfid, 128 if msg.channel == 9 else 0, msg.program)
     elif msg.type == "note_on":
         if msg.velocity > 0:
             fs.noteon(msg.channel, msg.note, msg.velocity)
