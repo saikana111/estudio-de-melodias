@@ -136,6 +136,13 @@ available for single-part accompaniment. Longer song generation is exposed throu
 the dashboard and standalone CLI; the ESP32 menu has no song-form editor.
 Set `ACOMPANAMIENTO_MOTOR=midigpt` only to compare the legacy neural path.
 
+The original Gemini chat and JSON planner now share a Spanish
+[musical emotion skill](skills/interpretar-emocion-musical/SKILL.md), grounded in
+the research review and the generator's supported controls. Recent conversation
+context accompanies the planning request; opening a project resets that context.
+See [integration and evaluation notes](docs/SKILL_EMOCIONAL.md). This does not add
+chat to the standalone dashboard or require another model/API call.
+
 Automatic destructive scale-snapping is now off. The legacy behavior can be enabled
 with `CORREGIR_ESCALA=1`, but it can alter intentional notes in the transcription.
 `GEMINI_MODEL` can override the original model name; cloud availability was not tested.

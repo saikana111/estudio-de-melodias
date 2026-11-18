@@ -143,6 +143,9 @@ def atender(pedido, config):
 
 
 def abrir_pantalla_principal():
+    global ultima_propuesta
+    gem.reiniciar_contexto_musical()
+    ultima_propuesta = ""
     enviar_pistas()
     esp32.enviar(f"PANTALLA:PRINCIPAL:{nombre}")
 
@@ -239,8 +242,8 @@ def procesar_chat():
 
 
 def generar_sugerencia(idea, canal=None):
-    """Gemini elige el instrumento y el carácter de la pista, MIDI-GPT escribe las notas y
-    sugerencia.py la propone. Si MIDI-GPT falla, se usa el método anterior (Gemini dice los acordes).
+    """Gemini interpreta la intención y el motor de ensamble genera por defecto.
+    Los motores tonal y MIDI-GPT siguen disponibles mediante configuración.
     canal = pista a la que acompaña (de ahí sale el pulso); sin canal, la última melodía grabada."""
     if canal is None or canal == CANAL_IA:
         canal = ultima_melodia
