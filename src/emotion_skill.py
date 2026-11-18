@@ -8,14 +8,33 @@ from pathlib import Path
 SKILL_PATH = Path(__file__).resolve().parents[1] / "skills" / "interpretar-emocion-musical" / "SKILL.md"
 
 
-def load_emotion_skill():
-    text = SKILL_PATH.read_text(encoding="utf-8")
+def load_emotion_skill(skill_path=SKILL_PATH):
+    """Inline the complete local knowledge pack; Gemini needs no file/web tools.
+
+    Sorted Markdown/JSON files in knowledge/ are picked up on application restart.
+    Fail visibly on missing/invalid material instead of silently dropping guidance.
+    """
+    skill_path = Path(skill_path)
+    text = skill_path.read_text(encoding="utf-8")
     if not text.startswith("---\n"):
-        raise ValueError(f"Falta la cabecera de la skill: {SKILL_PATH}")
+        raise ValueError(f"Falta la cabecera de la skill: {skill_path}")
     _, _, body = text.split("---", 2)
     if not body.strip():
-        raise ValueError(f"Skill vacía: {SKILL_PATH}")
-    return body.strip()
+        raise ValueError(f"Skill vacía: {skill_path}")
+    knowledge = skill_path.parent / "knowledge"
+    files = sorted(p for p in knowledge.rglob("*") if p.suffix in (".md", ".json"))
+    if not files:
+        raise ValueError(f"Falta la base de conocimiento: {knowledge}")
+    sections = [body.strip()]
+    for path in files:
+        content = path.read_text(encoding="utf-8").strip()
+        if not content:
+            raise ValueError(f"Conocimiento vacío: {path}")
+        if path.suffix == ".json":
+            # Parse before sending; compact representation avoids formatting tokens.
+            content = json.dumps(json.loads(content), ensure_ascii=False, separators=(",", ":"))
+        sections.append(f"\n\n--- Material local: {path.relative_to(knowledge).as_posix()} ---\n{content}")
+    return "\n".join(sections)
 
 
 class EmotionContext:

@@ -140,6 +140,9 @@ The original Gemini chat and JSON planner now share a Spanish
 [musical emotion skill](skills/interpretar-emocion-musical/SKILL.md), grounded in
 the research review and the generator's supported controls. Recent conversation
 context accompanies the planning request; opening a project resets that context.
+Its local knowledge base includes 40 intention profiles, 16 style guides and
+parameter/composition rules. The application sends the contents of every knowledge
+file to Gemini; it does not depend on the model opening links or searching the web.
 See [integration and evaluation notes](docs/SKILL_EMOCIONAL.md). This does not add
 chat to the standalone dashboard or require another model/API call.
 

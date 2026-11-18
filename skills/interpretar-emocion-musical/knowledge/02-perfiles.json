@@ -1,0 +1,598 @@
+{
+  "version": 1,
+  "naturaleza": "Hipótesis compositivas editables, no presets psicológicos validados. Aplicar las reglas de parámetros, contexto y estilo antes de emitir JSON.",
+  "uso": "Para una propuesta nueva: base + ajustes del perfil + restricciones del usuario + ajustes de contexto. Para revisiones: partir del arreglo anterior, no de base.",
+  "base": {
+    "instrumento": 0,
+    "voces": 3,
+    "notas": "largas",
+    "espacio": "medio",
+    "registro": "medio",
+    "disposicion": "cerrada",
+    "patron": "sostenido",
+    "intensidad": 64,
+    "curva_dinamica": "estable",
+    "articulacion": "legato",
+    "actividad": 1,
+    "perfil_armonico": "automatico",
+    "balance_bajo": -13,
+    "balance_respuesta": -20
+  },
+  "perfiles": [
+    {
+      "id": "tristeza-intima",
+      "cuando": "Triste, íntimo, recogido, sin dramatismo.",
+      "criterio": "Pocos ataques y poco peso; conservar la melodía como voz principal.",
+      "ajustes": {
+        "voces": 2,
+        "intensidad": 54,
+        "perfil_armonico": "reposado",
+        "balance_bajo": -19,
+        "balance_respuesta": -26
+      },
+      "evitar": "No imponer menor ni silenciar partes con balances."
+    },
+    {
+      "id": "tristeza-dramatica",
+      "cuando": "Tristeza intensa, dolor amplio, drama.",
+      "criterio": "Sostén de cuerdas, más cuerpo y arco que crece y descansa.",
+      "ajustes": {
+        "instrumento": 48,
+        "voces": 4,
+        "disposicion": "abierta",
+        "intensidad": 78,
+        "curva_dinamica": "arco",
+        "perfil_armonico": "arco"
+      },
+      "evitar": "No confundir drama con ataques rápidos o intensidad máxima."
+    },
+    {
+      "id": "duelo-contenido",
+      "cuando": "Duelo, pérdida, recogimiento solicitado como intención artística.",
+      "criterio": "Economía de material, sostén oscuro moderado y retirada.",
+      "ajustes": {
+        "instrumento": 48,
+        "voces": 2,
+        "intensidad": 52,
+        "curva_dinamica": "diminuendo",
+        "perfil_armonico": "resolver",
+        "balance_respuesta": -30
+      },
+      "evitar": "No diagnosticar al usuario ni asumir que quiere consuelo."
+    },
+    {
+      "id": "melancolia",
+      "cuando": "Melancolía tranquila, tristeza sostenida sin clímax.",
+      "criterio": "Mantener continuidad y dinámica estable; poca actividad.",
+      "ajustes": {
+        "intensidad": 58,
+        "perfil_armonico": "automatico",
+        "balance_respuesta": -26
+      },
+      "evitar": "No convertirlo en una celebración por pedir belleza."
+    },
+    {
+      "id": "nostalgia",
+      "cuando": "Evocación del pasado sin referencia instrumental definida.",
+      "criterio": "Ataque acústico cercano y movimiento lento; ajustar a sus recuerdos si los ofrece.",
+      "ajustes": {
+        "instrumento": 24,
+        "patron": "arpegio",
+        "notas": "medias",
+        "espacio": "medio",
+        "intensidad": 60,
+        "articulacion": "original",
+        "perfil_armonico": "resolver"
+      },
+      "evitar": "No inventar una época ni asumir que nostalgia es desagradable."
+    },
+    {
+      "id": "esperanza",
+      "cuando": "Apertura, confianza en que algo mejora, optimismo contenido.",
+      "criterio": "Flujo moderado y dirección de resolución, sin forzar euforia.",
+      "ajustes": {
+        "patron": "arpegio",
+        "notas": "medias",
+        "actividad": 2,
+        "intensidad": 66,
+        "articulacion": "normal",
+        "perfil_armonico": "resolver",
+        "curva_dinamica": "crescendo"
+      },
+      "evitar": "No prometer mayor ni una cadencia garantizada."
+    },
+    {
+      "id": "tristeza-con-esperanza",
+      "cuando": "Triste pero esperanzado; conservar ambos matices.",
+      "criterio": "Mantener suavidad y poca actividad; orientar la armonía hacia reposo final.",
+      "ajustes": {
+        "intensidad": 58,
+        "curva_dinamica": "arco",
+        "perfil_armonico": "resolver",
+        "balance_bajo": -17,
+        "balance_respuesta": -24
+      },
+      "evitar": "No cambiarlo a alegre o aumentar energía automáticamente."
+    },
+    {
+      "id": "calma",
+      "cuando": "Calma, bajar agitación, sensación tranquila.",
+      "criterio": "Sostén sin ataques extra, estabilidad armónica y dinámica.",
+      "ajustes": {
+        "instrumento": 48,
+        "intensidad": 52,
+        "perfil_armonico": "reposado",
+        "balance_bajo": -19,
+        "balance_respuesta": -28
+      },
+      "evitar": "No ralentizar la melodía ni prometer relajación fisiológica."
+    },
+    {
+      "id": "paz-luminosa",
+      "cuando": "Paz agradable, serenidad con claridad.",
+      "criterio": "Textura ligera de ataque claro, sin acumulación de tensión.",
+      "ajustes": {
+        "instrumento": 46,
+        "patron": "arpegio",
+        "notas": "largas",
+        "articulacion": "normal",
+        "intensidad": 56,
+        "perfil_armonico": "reposado",
+        "balance_respuesta": -26
+      },
+      "evitar": "No confundir luminosidad con poner todas las partes agudas."
+    },
+    {
+      "id": "ternura",
+      "cuando": "Cariño, cercanía, gesto amable.",
+      "criterio": "Ataques suaves, textura pequeña, armonía reposada.",
+      "ajustes": {
+        "voces": 2,
+        "intensidad": 54,
+        "perfil_armonico": "reposado",
+        "balance_bajo": -21,
+        "balance_respuesta": -26
+      },
+      "evitar": "No infantilizar ni seleccionar caja de música si rechaza ese timbre."
+    },
+    {
+      "id": "fragilidad",
+      "cuando": "Delicadeza vulnerable, algo que parece frágil.",
+      "criterio": "Pocos apoyos y ataques espaciados con pausas reales.",
+      "ajustes": {
+        "instrumento": 8,
+        "voces": 2,
+        "patron": "bloques",
+        "notas": "medias",
+        "espacio": "mucho",
+        "articulacion": "original",
+        "intensidad": 48,
+        "balance_bajo": -25,
+        "balance_respuesta": -30
+      },
+      "evitar": "No usar legato si se desean silencios entre los puntos."
+    },
+    {
+      "id": "soledad",
+      "cuando": "Sensación de distancia o soledad.",
+      "criterio": "Apoyo escaso, pocas alturas y respuesta muy discreta.",
+      "ajustes": {
+        "voces": 2,
+        "patron": "bloques",
+        "notas": "largas",
+        "espacio": "mucho",
+        "articulacion": "original",
+        "intensidad": 52,
+        "balance_bajo": -23,
+        "balance_respuesta": -30
+      },
+      "evitar": "No prometer instrumento solista: el ensamble conserva bajo y flauta."
+    },
+    {
+      "id": "vulnerabilidad",
+      "cuando": "Exposición íntima, confesión, sin grandilocuencia.",
+      "criterio": "Piano pequeño y contenido, sin aumentos dramáticos.",
+      "ajustes": {
+        "voces": 2,
+        "intensidad": 56,
+        "perfil_armonico": "automatico",
+        "balance_respuesta": -28
+      },
+      "evitar": "No interpretar el estado psicológico real del usuario."
+    },
+    {
+      "id": "alegria-serena",
+      "cuando": "Contento pero tranquilo; bienestar sin euforia.",
+      "criterio": "Armonía reposada, movimiento lento y dinámica moderada.",
+      "ajustes": {
+        "instrumento": 24,
+        "patron": "arpegio",
+        "notas": "medias",
+        "intensidad": 62,
+        "articulacion": "normal",
+        "perfil_armonico": "reposado"
+      },
+      "evitar": "No asociar toda alegría con staccato y alta actividad."
+    },
+    {
+      "id": "alegria-ligera",
+      "cuando": "Alegre, ligero, con algo de movimiento.",
+      "criterio": "Ataques regulares separados, sin peso excesivo.",
+      "ajustes": {
+        "patron": "arpegio",
+        "notas": "medias",
+        "actividad": 2,
+        "articulacion": "normal",
+        "intensidad": 72,
+        "perfil_armonico": "reposado"
+      },
+      "evitar": "No alterar modo de la melodía ni prometer groove."
+    },
+    {
+      "id": "celebracion",
+      "cuando": "Celebrar, entusiasmo, alegría más expansiva.",
+      "criterio": "Mayor cuerpo y ataques definidos con energía estable.",
+      "ajustes": {
+        "instrumento": 25,
+        "voces": 4,
+        "patron": "bloques",
+        "notas": "medias",
+        "espacio": "poco",
+        "actividad": 2,
+        "articulacion": "normal",
+        "intensidad": 82,
+        "perfil_armonico": "resolver",
+        "balance_bajo": -10
+      },
+      "evitar": "No prometer batería o síncopa festiva."
+    },
+    {
+      "id": "juego",
+      "cuando": "Juguetón, travieso, pequeño movimiento divertido.",
+      "criterio": "Ataques breves y ligeros con espacio entre ellos.",
+      "ajustes": {
+        "instrumento": 45,
+        "patron": "arpegio",
+        "notas": "medias",
+        "actividad": 2,
+        "articulacion": "staccato",
+        "intensidad": 64,
+        "perfil_armonico": "automatico"
+      },
+      "evitar": "No convertirlo en caricatura infantil sin pedido."
+    },
+    {
+      "id": "curiosidad",
+      "cuando": "Exploración suave, interés, algo por descubrir.",
+      "criterio": "Movimiento pequeño con cierta dirección de tensión.",
+      "ajustes": {
+        "instrumento": 11,
+        "patron": "arpegio",
+        "notas": "medias",
+        "actividad": 2,
+        "articulacion": "normal",
+        "intensidad": 60,
+        "perfil_armonico": "creciente"
+      },
+      "evitar": "No inventar sorpresas aleatorias fuera de la melodía."
+    },
+    {
+      "id": "asombro",
+      "cuando": "Maravilla, amplitud, descubrimiento.",
+      "criterio": "Espacio vertical y expansión de dinámica, sin apuro.",
+      "ajustes": {
+        "instrumento": 48,
+        "voces": 4,
+        "disposicion": "abierta",
+        "intensidad": 70,
+        "curva_dinamica": "crescendo",
+        "perfil_armonico": "arco"
+      },
+      "evitar": "No decir que abierta genera reverb o espacialización."
+    },
+    {
+      "id": "misterio",
+      "cuando": "Misterioso pero no necesariamente aterrador.",
+      "criterio": "Puntos espaciados y dirección armónica no reposada.",
+      "ajustes": {
+        "instrumento": 11,
+        "voces": 2,
+        "patron": "bloques",
+        "notas": "medias",
+        "espacio": "mucho",
+        "articulacion": "original",
+        "intensidad": 56,
+        "perfil_armonico": "creciente",
+        "balance_respuesta": -28
+      },
+      "evitar": "No equiparar misterio con volumen alto o terror."
+    },
+    {
+      "id": "suspenso-silencioso",
+      "cuando": "Suspenso por espera y espacios, muy suave.",
+      "criterio": "Pocos ataques separados por silencio real; tensión creciente.",
+      "ajustes": {
+        "voces": 2,
+        "patron": "bloques",
+        "notas": "medias",
+        "espacio": "mucho",
+        "articulacion": "original",
+        "intensidad": 50,
+        "perfil_armonico": "creciente",
+        "balance_bajo": -20,
+        "balance_respuesta": -30
+      },
+      "evitar": "No afirmar que hay cortes dramáticos o disonancia programada."
+    },
+    {
+      "id": "inquietud-contenida",
+      "cuando": "Inquietud o ansiedad como carácter musical, sin subir volumen.",
+      "criterio": "Algo de movimiento y perfil creciente manteniendo intensidad moderada.",
+      "ajustes": {
+        "instrumento": 48,
+        "actividad": 2,
+        "articulacion": "normal",
+        "intensidad": 58,
+        "perfil_armonico": "creciente"
+      },
+      "evitar": "No diagnosticar ansiedad ni agregar crescendo contra el pedido."
+    },
+    {
+      "id": "miedo-vulnerable",
+      "cuando": "Temor frágil, inseguridad como escena musical.",
+      "criterio": "Apoyos escasos y tensión sin fuerza excesiva.",
+      "ajustes": {
+        "voces": 2,
+        "patron": "bloques",
+        "notas": "medias",
+        "espacio": "mucho",
+        "articulacion": "original",
+        "intensidad": 52,
+        "perfil_armonico": "creciente",
+        "balance_respuesta": -30
+      },
+      "evitar": "No prometer música de terror con clusters."
+    },
+    {
+      "id": "amenaza",
+      "cuando": "Algo amenazante que se aproxima.",
+      "criterio": "Sostén con cuerpo, acumulación armónica y dinámica.",
+      "ajustes": {
+        "instrumento": 48,
+        "voces": 4,
+        "intensidad": 76,
+        "curva_dinamica": "crescendo",
+        "perfil_armonico": "creciente",
+        "balance_bajo": -7,
+        "balance_respuesta": -28
+      },
+      "evitar": "No bajar al registro grave si no deja sitio al contrabajo."
+    },
+    {
+      "id": "enojo",
+      "cuando": "Enojo, fuerza y ataque; no necesariamente tristeza.",
+      "criterio": "Bloques definidos, actividad alta moderada y mayor intensidad.",
+      "ajustes": {
+        "patron": "bloques",
+        "notas": "medias",
+        "espacio": "poco",
+        "actividad": 2,
+        "articulacion": "staccato",
+        "intensidad": 88,
+        "perfil_armonico": "creciente",
+        "balance_bajo": -9
+      },
+      "evitar": "No prometer distorsión, batería ni aspereza controlada."
+    },
+    {
+      "id": "frustracion",
+      "cuando": "Insistencia y tensión que no termina de relajarse.",
+      "criterio": "Ataques repetidos contenidos, dirección creciente.",
+      "ajustes": {
+        "patron": "bloques",
+        "notas": "medias",
+        "actividad": 2,
+        "articulacion": "normal",
+        "intensidad": 72,
+        "perfil_armonico": "creciente"
+      },
+      "evitar": "No garantizar final armónicamente abierto."
+    },
+    {
+      "id": "determinacion",
+      "cuando": "Decisión firme, perseverancia, avanzar.",
+      "criterio": "Apoyos claros regulares, energía estable y cierre orientado.",
+      "ajustes": {
+        "instrumento": 25,
+        "patron": "bloques",
+        "notas": "medias",
+        "actividad": 2,
+        "articulacion": "normal",
+        "intensidad": 78,
+        "perfil_armonico": "resolver",
+        "balance_bajo": -10
+      },
+      "evitar": "No confundir firmeza con intensidad máxima."
+    },
+    {
+      "id": "valentia",
+      "cuando": "Coraje contenido, afrontar algo difícil.",
+      "criterio": "Cuerpo sostenido y expansión moderada sin demasiados ataques.",
+      "ajustes": {
+        "instrumento": 60,
+        "intensidad": 76,
+        "curva_dinamica": "crescendo",
+        "perfil_armonico": "resolver"
+      },
+      "evitar": "No convertir cada pedido de valentía en orquesta épica."
+    },
+    {
+      "id": "triunfo",
+      "cuando": "Llegada victoriosa, afirmación amplia.",
+      "criterio": "Textura ancha, cuerpo y dirección de llegada.",
+      "ajustes": {
+        "instrumento": 60,
+        "voces": 4,
+        "disposicion": "abierta",
+        "intensidad": 84,
+        "curva_dinamica": "arco",
+        "perfil_armonico": "resolver",
+        "balance_bajo": -10
+      },
+      "evitar": "No prometer fanfarrias o notas nuevas de la melodía."
+    },
+    {
+      "id": "solemnidad",
+      "cuando": "Seriedad ceremonial, peso sin agitación.",
+      "criterio": "Ataques espaciados, armonía sostenida y dinámica uniforme.",
+      "ajustes": {
+        "instrumento": 19,
+        "voces": 4,
+        "intensidad": 68,
+        "perfil_armonico": "reposado",
+        "balance_respuesta": -28
+      },
+      "evitar": "No asignar significado religioso sin contexto."
+    },
+    {
+      "id": "reverencia",
+      "cuando": "Recogimiento reverente o contemplación espiritual solicitada.",
+      "criterio": "Sostén coral moderado y amplitud sin actividad extra.",
+      "ajustes": {
+        "instrumento": 52,
+        "disposicion": "abierta",
+        "intensidad": 58,
+        "perfil_armonico": "reposado",
+        "balance_bajo": -19,
+        "balance_respuesta": -28
+      },
+      "evitar": "No asegurar efectos espirituales ni voces con palabras."
+    },
+    {
+      "id": "romance-intimo",
+      "cuando": "Romántico cercano, sin gran dramatismo.",
+      "criterio": "Ataque cálido y flujo moderado, llegada armónica suave.",
+      "ajustes": {
+        "instrumento": 24,
+        "patron": "arpegio",
+        "notas": "medias",
+        "intensidad": 60,
+        "articulacion": "normal",
+        "perfil_armonico": "resolver"
+      },
+      "evitar": "No imponer cuerdas/coro si no quiere sentimentalismo."
+    },
+    {
+      "id": "sensualidad-suave",
+      "cuando": "Sensualidad musical suave, cercana.",
+      "criterio": "Textura cálida contenida y continuidad con espacio perceptual.",
+      "ajustes": {
+        "instrumento": 4,
+        "voces": 2,
+        "intensidad": 58,
+        "perfil_armonico": "automatico",
+        "balance_bajo": -17,
+        "balance_respuesta": -28
+      },
+      "evitar": "No prometer swing, groove o respuesta emocional universal."
+    },
+    {
+      "id": "ambivalencia",
+      "cuando": "Dulce y amargo, sentimientos mezclados sin cierre inequívoco.",
+      "criterio": "Mantener calidez y un arco de tensión sin forzar euforia.",
+      "ajustes": {
+        "instrumento": 4,
+        "intensidad": 62,
+        "perfil_armonico": "arco",
+        "balance_respuesta": -24
+      },
+      "evitar": "No reducirlo a mayor/menor ni prometer ambigüedad tonal sofisticada."
+    },
+    {
+      "id": "alivio",
+      "cuando": "Soltar tensión, llegar a un descanso.",
+      "criterio": "Dirección armónica de resolución y retirada dinámica.",
+      "ajustes": {
+        "intensidad": 62,
+        "curva_dinamica": "diminuendo",
+        "perfil_armonico": "resolver",
+        "balance_respuesta": -26
+      },
+      "evitar": "No garantizar que toda melodía permita una cadencia concluyente."
+    },
+    {
+      "id": "despedida",
+      "cuando": "Despedirse o terminar con delicadeza.",
+      "criterio": "Sostener la identidad y retirarse hacia el cierre.",
+      "ajustes": {
+        "instrumento": 48,
+        "voces": 2,
+        "intensidad": 60,
+        "curva_dinamica": "diminuendo",
+        "perfil_armonico": "resolver",
+        "balance_bajo": -19,
+        "balance_respuesta": -28
+      },
+      "evitar": "No acortar, borrar o ralentizar las notas originales."
+    },
+    {
+      "id": "contemplacion",
+      "cuando": "Pensativo, observador, sin emoción unívoca.",
+      "criterio": "Textura estable y no invasiva, poca dirección impuesta.",
+      "ajustes": {
+        "instrumento": 4,
+        "intensidad": 54,
+        "perfil_armonico": "automatico",
+        "balance_bajo": -19,
+        "balance_respuesta": -26
+      },
+      "evitar": "No asignar tristeza por la baja actividad."
+    },
+    {
+      "id": "flujo",
+      "cuando": "Continuidad, avanzar de forma fluida sin agresividad.",
+      "criterio": "Arpegio conectado y regular con intensidad moderada.",
+      "ajustes": {
+        "instrumento": 46,
+        "patron": "arpegio",
+        "notas": "medias",
+        "actividad": 2,
+        "articulacion": "legato",
+        "intensidad": 66,
+        "perfil_armonico": "automatico"
+      },
+      "evitar": "No confundir regularidad MIDI con pulso confirmado del tarareo."
+    },
+    {
+      "id": "energia-adrenalina",
+      "cuando": "Mucha energía, urgencia o impulso.",
+      "criterio": "Ataques frecuentes definidos, cuerpo e intensidad alta moderada.",
+      "ajustes": {
+        "patron": "bloques",
+        "notas": "medias",
+        "espacio": "poco",
+        "actividad": 3,
+        "articulacion": "normal",
+        "intensidad": 88,
+        "perfil_armonico": "creciente",
+        "balance_bajo": -9
+      },
+      "evitar": "No prometer acelerar la melodía ni batería."
+    },
+    {
+      "id": "tristeza-energica",
+      "cuando": "Triste pero con movimiento y fuerza, no apagado.",
+      "criterio": "Cuerdas con ataques regulares y arco de tensión, sin convertir el carácter en alegre.",
+      "ajustes": {
+        "instrumento": 48,
+        "patron": "bloques",
+        "notas": "medias",
+        "actividad": 2,
+        "articulacion": "normal",
+        "intensidad": 74,
+        "perfil_armonico": "arco"
+      },
+      "evitar": "No reducir actividad por encontrar la palabra triste."
+    }
+  ]
+}
